@@ -1,0 +1,25 @@
+{
+  "name": "events.mk",
+  "version": "0.0.0",
+  "description": "gather all the events my friend",
+  "main": "web/server.js",
+  "dependencies": {
+    "bluebird": "~2.1.3",
+    "request": "~2.36.0",
+    "rethinkdb": "~1.13.0-1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:whoeverest/eventsmk.git"
+  },
+  "keywords": [
+    "events",
+    "macedonia"
+  ],
+  "author": "Andrej T.",
+  "license": "BSD-2-Clause"
+}
