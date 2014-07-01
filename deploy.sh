@@ -6,6 +6,6 @@ if [ -z "$refspec" ]
 then
     refspec="master"
 fi
-git fetch upstream && git stash && git checkout upstream/$refspec
+git fetch origin && git stash && git checkout origin/$refspec
 npm install
 nac $NACNAME restart
