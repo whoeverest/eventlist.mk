@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Events | MK</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+      $.getJSON('/events', function(events) {
+      console.log(events);
+      events.forEach(function(ev) {
+      var el = '<tr><td class="name"><a href="$URL$">$NAME$</a></td><td>$WHEN$</td><td>$WHERE$</td></tr>';
+      el = el
+      .replace('$NAME$', ev.name)
+      .replace('$WHEN$', ev.start_time)
+      .replace('$WHERE$', ev.location || '-')
+      .replace('$URL$', 'http://facebook.com/events/' + ev.id);
+      $('#events').append(el);
+      });
+      })
+      })
+    </script>
+    <style>
+      #events, body {
+        width: 100%;
+      }
+      .name {
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Events MK</h1>
+    <p>A list of all the current and upcoming events in Skopje, Macedonia.</p>
+    <a href="/auth/facebook">Login with Facebook</a>
+    <br/><br/><br/>
+    <table id="events">
+      <tr><th>Name</th><th>When</th><th>Where</th></tr>
+    </table>
+  </body>
+</html>
