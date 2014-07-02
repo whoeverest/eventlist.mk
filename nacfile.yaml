@@ -1,5 +1,5 @@
 command: node
 args: [server.js]
 scripts:
-  deploy: "../deploy.sh"
-  refresh: "./refresh-data.js"
+  deploy: "./scripts/deploy.sh"
+  refresh: "./scripts/refresh-data.js"
