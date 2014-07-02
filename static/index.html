@@ -5,6 +5,8 @@
     <script type="text/javascript">
       $(function() {
       $.getJSON('/events', function(events) {
+      events = events.sort(function(ev1, ev2) { return new Date(ev1.start_time) > new Date(ev2.start_time); })
+      events = events.filter(function(ev) { return new Date(ev.start_time) > new Date() })
       console.log(events);
       events.forEach(function(ev) {
       var el = '<tr><td class="name"><a href="$URL$">$NAME$</a></td><td>$WHEN$</td><td>$WHERE$</td></tr>';
