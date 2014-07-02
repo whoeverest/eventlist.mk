@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 /**
 
 1. Fetch users (tokens) that haven't been updated in more than X time
