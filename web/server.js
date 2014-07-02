@@ -14,7 +14,7 @@ r.connect({ host: 'localhost', port: 28015 }, function(err, connection) {
 var strategy = new FacebookStrategy({
     clientID: "1471063303131642",
     clientSecret: "c5197e02fc6fad6537162806cf161f0b",
-    callbackURL: "http://192.168.88.181:9999/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
     console.log('id', profile.id, 'access token', accessToken);
 
