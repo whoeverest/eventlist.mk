@@ -10,7 +10,7 @@
       var el = '<tr><td class="name"><a href="$URL$">$NAME$</a></td><td>$WHEN$</td><td>$WHERE$</td></tr>';
       el = el
       .replace('$NAME$', ev.name)
-      .replace('$WHEN$', ev.start_time)
+      .replace('$WHEN$', new Date(ev.start_time))
       .replace('$WHERE$', ev.location || '-')
       .replace('$URL$', 'http://facebook.com/events/' + ev.id);
       $('#events').append(el);
