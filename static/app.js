@@ -11,7 +11,7 @@ var Event = React.createClass({
         if (this.props.venue && this.props.venue.id && this.props.location) {
             venueEl = D.a({
                 href: 'http://facebook.com/' + this.props.venue.id,
-                class: 'location'}, this.props.location);
+                className: 'location'}, this.props.location);
         } else {
             var locationText = this.props.location ? this.props.location : '-';
             venueEl = D.span(null, locationText);
@@ -37,7 +37,7 @@ var EventGroup = React.createClass({
         var items = this.props.events.map(Event);
         return D.div(
             { className: 'event-group' },
-            D.h2({ className: 'header' }, this.props.day),
+            D.h4({ className: 'header' }, this.props.day),
             D.div(null, items));
     }
 });
@@ -65,14 +65,14 @@ var App = React.createClass({
     render: function() {
         var self = this;
         var filtered = _.filter(this.state.events, function(e) {
-            var filterTextLower = self.state.filterText.toLocaleLowerCase()
+            var filterTextLower = self.state.filterText.toLocaleLowerCase();
             var inName =  e.name.toLocaleLowerCase().indexOf(filterTextLower) >= 0;
             var inDescription = e.description ?
                 e.description.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-                true;
+                false;
             var inLocation = e.location ?
                 e.location.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-                true;
+                false;
             return inName || inDescription || inLocation;
         });
         var groups = _.groupBy(filtered, function(ev) {
@@ -85,6 +85,7 @@ var App = React.createClass({
             { className: 'event-list' },
             D.input({
                 type: 'text',
+                className: 'search-box',
                 value: this.state.filterText,
                 onChange: this.updateFilter}),
             items);

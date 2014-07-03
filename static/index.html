@@ -1,16 +1,24 @@
 <html>
   <head>
     <title>Events | MK</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <h1>Events MK</h1>
-    <p>A list of all the current and upcoming events in Skopje, Macedonia.</p>
-    <a href="/auth/facebook">Login with Facebook</a>
-    <br/><br/><br/>
-    <div id="app">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div id="header">
+            <h1>Events MK</h1>
+            <p>A list of all the current and upcoming events in Skopje, Macedonia.</p>
+            <a href="/auth/facebook">Login with Facebook</a>
+          </div>
+          <div id="app"></div>
+        </div>
+      </div>
     </div>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react-with-addons.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <script src="/app.js"></script>
