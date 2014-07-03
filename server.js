@@ -4,7 +4,7 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var r = require('rethinkdb');
 
-var RETHINKHOST = '192.168.88.181';
+var RETHINKHOST = 'localhost';
 
 var conn;
 r.connect({ host: RETHINKHOST, port: 28015 }, function(err, connection) {
