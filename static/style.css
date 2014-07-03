@@ -23,3 +23,6 @@ html {
 .event-group {
     padding-bottom: 20px;
 }
+.event-group .header {
+    font-weight: bold;
+}
