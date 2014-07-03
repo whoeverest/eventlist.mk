@@ -74,6 +74,13 @@ app.get('/events', function(req, res) {
     r.db('EventsMK').table('Events').run(conn, function(err, cursor) {
         if (err) { throw err; }
         cursor.toArray(function(err, events) {
+            // todo: implement the filter in react query
+            events = events.filter(function(ev) {
+                var twoWeeks = 14 * 25 * 60 * 60 * 1000;
+                var beforeToday = new Date(ev.start_time) < Date.now();
+                var twoWeeksPlus = new Date(ev.start_time) > Date.now() + twoWeeks; // two weeks
+                return !(beforeToday || twoWeeksPlus);
+            });
             res.json(events);
         });
     });
