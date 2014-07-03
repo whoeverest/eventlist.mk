@@ -3,12 +3,31 @@ var D = React.DOM;
 var Event = React.createClass({
     displayName: 'Event',
     render: function() {
+        var startDate = new Date(this.props.start_time);
+        var minutes = startDate.getMinutes();
+        var hours = startDate.getHours();
+
+        var venueEl;
+        if (this.props.venue && this.props.venue.id && this.props.location) {
+            venueEl = D.a({
+                href: 'http://facebook.com/' + this.props.venue.id,
+                class: 'location'}, this.props.location);
+        } else {
+            var locationText = this.props.location ? this.props.location : '-';
+            venueEl = D.span(null, locationText);
+        }
+
+        if (minutes.toString().length === 1) {
+            minutes = '0' + minutes;
+        }
+
         return D.div(
             { className: 'event'},
-            D.div({ className: 'name' }, this.props.name),
-            // D.span({ className: 'start-time' }, this.props.start_time.toString()),
-            D.div({ className: 'venue' }, this.props.location ? this.props.location : '-')
-        );
+            D.a({ href: 'http://facebook.com/' + this.props.id},
+                D.div({ className: 'name' }, this.props.name)),
+            D.div({ className: 'whereabouts'},
+                  D.span({ className: 'start-time' }, hours + ':' + minutes),
+                  venueEl));
     }
 });
 
@@ -46,8 +65,15 @@ var App = React.createClass({
     render: function() {
         var self = this;
         var filtered = _.filter(this.state.events, function(e) {
-            return e.name.toLocaleLowerCase()
-                .indexOf(self.state.filterText.toLocaleLowerCase()) >= 0;
+            var filterTextLower = self.state.filterText.toLocaleLowerCase()
+            var inName =  e.name.toLocaleLowerCase().indexOf(filterTextLower) >= 0;
+            var inDescription = e.description ?
+                e.description.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
+                true;
+            var inLocation = e.location ?
+                e.location.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
+                true;
+            return inName || inDescription || inLocation;
         });
         var groups = _.groupBy(filtered, function(ev) {
             return ev.start_time.substr(0, 10);
