@@ -23,8 +23,8 @@ var EventGroup = React.createClass({
     }
 });
 
-var EventList = React.createClass({
-    displayName: 'EventList',
+var App = React.createClass({
+    displayName: 'App',
     componentWillMount: function() {
         var self = this;
         $.getJSON('/events', function(events) {
@@ -35,23 +35,34 @@ var EventList = React.createClass({
         });
     },
     getInitialState: function() {
-        return { events: [] };
+        return { events: [], filterText: '' };
+    },
+    updateFilter: function(e) {
+        this.setState({
+            events: this.state.events,
+            filterText: e.target.value
+        });
     },
     render: function() {
-        var groups = _.groupBy(this.state.events, function(ev) {
+        var self = this;
+        var filtered = _.filter(this.state.events, function(e) {
+            return e.name.toLocaleLowerCase()
+                .indexOf(self.state.filterText.toLocaleLowerCase()) >= 0;
+        });
+        var groups = _.groupBy(filtered, function(ev) {
             return ev.start_time.substr(0, 10);
         });
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
         });
-        return D.div({ className: 'event-list' }, items);
+        return D.div(
+            { className: 'event-list' },
+            D.input({
+                type: 'text',
+                value: this.state.filterText,
+                onChange: this.updateFilter}),
+            items);
     }
 });
 
-var testEvents = [{
-    name: 'Kurac',
-    start_time: new Date(),
-    venue: 'La kurac'
-}];
-
-React.renderComponent(EventList({ events: testEvents }), document.getElementById("app"));
+React.renderComponent(App(), document.getElementById("app"));
