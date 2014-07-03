@@ -21,6 +21,10 @@ var Event = React.createClass({
             minutes = '0' + minutes;
         }
 
+        if (hours.toString().length === 1) {
+            hours = '0' + hours;
+        }
+
         return D.div(
             { className: 'event'},
             D.a({ href: 'http://facebook.com/' + this.props.id},
@@ -35,6 +39,7 @@ var EventGroup = React.createClass({
     displayName: 'EventGroup',
     render: function() {
         var items = this.props.events.map(Event);
+        console.log(this.props.day);
         return D.div(
             { className: 'event-group' },
             D.h4({ className: 'header' }, this.props.day),
@@ -76,7 +81,7 @@ var App = React.createClass({
             return inName || inDescription || inLocation;
         });
         var groups = _.groupBy(filtered, function(ev) {
-            return ev.start_time.substr(0, 10);
+            return moment(ev.start_time).format('dddd[, ]Do MMMM');//format('LL');
         });
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
