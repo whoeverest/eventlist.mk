@@ -1,41 +1,18 @@
 <html>
   <head>
     <title>Events | MK</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      $(function() {
-      $.getJSON('/events', function(events) {
-      events = events.sort(function(ev1, ev2) { return new Date(ev1.start_time) > new Date(ev2.start_time); })
-      events = events.filter(function(ev) { return new Date(ev.start_time) > new Date() })
-      console.log(events);
-      events.forEach(function(ev) {
-      var el = '<tr><td class="name"><a href="$URL$">$NAME$</a></td><td>$WHEN$</td><td>$WHERE$</td></tr>';
-      el = el
-      .replace('$NAME$', ev.name)
-      .replace('$WHEN$', new Date(ev.start_time))
-      .replace('$WHERE$', ev.location || '-')
-      .replace('$URL$', 'http://facebook.com/events/' + ev.id);
-      $('#events').append(el);
-      });
-      })
-      })
-    </script>
-    <style>
-      #events, body {
-        width: 100%;
-      }
-      .name {
-        width: 30%;
-      }
-    </style>
   </head>
   <body>
     <h1>Events MK</h1>
     <p>A list of all the current and upcoming events in Skopje, Macedonia.</p>
     <a href="/auth/facebook">Login with Facebook</a>
     <br/><br/><br/>
-    <table id="events">
-      <tr><th>Name</th><th>When</th><th>Where</th></tr>
-    </table>
+    <div id="app">
+    </div>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script src="/app.js"></script>
   </body>
 </html>

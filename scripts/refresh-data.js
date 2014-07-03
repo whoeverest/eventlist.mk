@@ -30,17 +30,12 @@ var conn;
 r.connect({ hostname: 'localhost', port: 28015 }).then(function(connection) {
     conn = connection;
 }).then(function() {
-    // add filter for newly updated users
-    return r.db('EventsMK').table('Users')
-        .run(conn).then(function(cursor) {
-            return cursor.toArray();
-        });
-}).then(function(users) {
-    return users.map(function(user) {
-        return DB.user.refreshEventList(conn, user.id).then(function() {
-            return DB.user.expandEventInfo(conn, user.id);
-        });
-    });
-}).all().then(function() {
+    return DB.user.refreshEventListAll(conn);
+}).then(function() {
+    return DB.events.getUniqueTokenEventPairs(conn);
+}).then(function(pairs) {
+    return DB.events.updateEvents(conn, pairs);
+}).then(function() {
+    console.log('done');
     process.exit(0);
-}).error(console.log.bind(console));
+});
