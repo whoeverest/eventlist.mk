@@ -92,7 +92,9 @@ var App = React.createClass({
                 type: 'text',
                 className: 'search-box',
                 value: this.state.filterText,
-                onChange: this.updateFilter}),
+                onChange: this.updateFilter,
+                placeholder: 'Пребарај...'
+            }),
             items);
     }
 });
