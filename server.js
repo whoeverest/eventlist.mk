@@ -56,6 +56,8 @@ app.get('/error', function(req, res) {
 app.get('/events', function(req, res) {
     db.events.comingInDays(14).then(function(events) {
         res.json(events);
+    }).error(function() {
+        res.json({ error: 'error' });
     });
 });
 
