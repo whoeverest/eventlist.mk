@@ -11,8 +11,10 @@ var strategy = new FacebookStrategy({
     clientSecret: "c5197e02fc6fad6537162806cf161f0b",
     callbackURL: "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    db.user.insert(profile.id, accessToken).then(function() {
+    db.user.insert(profile.id, profile._json.name, accessToken).then(function() {
         done(null, profile);
+    }).error(function() {
+        done('error inserting user with id');
     });
 });
 
