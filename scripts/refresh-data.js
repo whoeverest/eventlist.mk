@@ -24,18 +24,10 @@ To keep a venue refreshed, you need to fetch its info
 */
 
 var DB = require('../lib/db-service');
-var r = require('rethinkdb');
 
-var conn;
-r.connect({ hostname: 'localhost', port: 28015 }).then(function(connection) {
-    conn = connection;
-}).then(function() {
-    return DB.user.refreshEventListAll(conn);
-}).then(function() {
-    return DB.events.getUniqueTokenEventPairs(conn);
-}).then(function(pairs) {
-    return DB.events.updateEvents(conn, pairs);
-}).then(function() {
-    console.log('done');
-    process.exit(0);
-});
+DB.user
+    .refreshEventListAll()
+    .then(DB.events.getUniqueTokenEventPairs)
+    .then(DB.events.updateEvents)
+    .then(function() { console.log('done', new Date()); process.exit(0); })
+    .catch(console.log.bind(console));

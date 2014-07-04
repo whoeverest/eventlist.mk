@@ -4,33 +4,16 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var r = require('rethinkdb');
 
-var RETHINKHOST = 'localhost';
-
-var conn;
-r.connect({ host: RETHINKHOST, port: 28015 }, function(err, connection) {
-    if (err) { throw err; }
-    conn = connection;
-    console.log('Connected to Rethink');
-});
+var db = require('./lib/db-service');
 
 var strategy = new FacebookStrategy({
     clientID: "1471063303131642",
     clientSecret: "c5197e02fc6fad6537162806cf161f0b",
     callbackURL: "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    console.log('id', profile.id, 'access token', accessToken);
-
-    console.log(conn);
-
-    r.db('EventsMK').table('Users').insert({
-        id: profile.id,
-        accessToken: accessToken
-    }).run(conn, function(err, res) {
-        if (err) { throw err; }
-        console.log(res);
+    db.user.insert(profile.id, accessToken).then(function() {
+        done(null, profile);
     });
-
-    done(null, profile);
 });
 
 passport.use(strategy);
@@ -71,18 +54,8 @@ app.get('/error', function(req, res) {
 });
 
 app.get('/events', function(req, res) {
-    r.db('EventsMK').table('Events').run(conn, function(err, cursor) {
-        if (err) { throw err; }
-        cursor.toArray(function(err, events) {
-            // todo: implement the filter in react query
-            events = events.filter(function(ev) {
-                var twoWeeks = 14 * 25 * 60 * 60 * 1000;
-                var beforeToday = new Date(ev.start_time) < Date.now();
-                var twoWeeksPlus = new Date(ev.start_time) > Date.now() + twoWeeks; // two weeks
-                return !(beforeToday || twoWeeksPlus);
-            });
-            res.json(events);
-        });
+    db.events.comingInDays(14).then(function(events) {
+        res.json(events);
     });
 });
 
