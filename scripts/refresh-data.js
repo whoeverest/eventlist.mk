@@ -29,5 +29,5 @@ DB.user
     .refreshEventListAll()
     .then(DB.events.getUniqueTokenEventPairs)
     .then(DB.events.updateEvents)
-    .then(function() { console.log('done', new Date()); })
+    .then(function() { console.log('done'); process.exit(0); })
     .catch(console.log.bind(console));
