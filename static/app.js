@@ -1,12 +1,5 @@
 var D = React.DOM;
 
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
 var Event = React.createClass({
     displayName: 'Event',
     render: function() {
@@ -54,32 +47,6 @@ var EventGroup = React.createClass({
     }
 });
 
-var Alert = React.createClass({
-    displayName: 'Alert',
-    render: function() {
-        var message, type;
-        var messageSuccess = 'Успешно беа додадени твоите настани';
-        var messageFailure = 'Имаше проблем при додавањето на твоите настани';
-
-        var loginStatus = getParameterByName('loginStatus');
-
-        if (loginStatus === 'success') {
-            type = 'success';
-            message = messageSuccess;
-        } else if (loginStatus === 'error') {
-            type = 'danger';
-            message = messageFailure;
-        }
-
-        console.log(message, type);
-
-        return D.div(
-            { className: 'alert alert-' + type },
-            message
-        );
-    }
-});
-
 var App = React.createClass({
     displayName: 'App',
     componentWillMount: function() {
@@ -121,7 +88,6 @@ var App = React.createClass({
         });
         return D.div(
             { className: 'event-list' },
-            Alert(),
             D.input({
                 type: 'text',
                 className: 'search-box',
