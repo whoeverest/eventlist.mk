@@ -42,8 +42,8 @@ app.get('/auth/facebook',
         passport.authenticate('facebook', { scope: ['user_events'] }));
 app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: '/?message=eventsAddedSuccess',
-            failureRedirect: '/?message=eventsAddedFail' }));
+            successRedirect: '/?message=addEventsSuccess',
+            failureRedirect: '/?message=addEventsFail' }));
 
 app.get('/success', function(req, res) {
     var id = req.session.passport.user.id;
