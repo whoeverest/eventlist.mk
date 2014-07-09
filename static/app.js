@@ -39,7 +39,6 @@ var EventGroup = React.createClass({
     displayName: 'EventGroup',
     render: function() {
         var items = this.props.events.map(Event);
-        console.log(this.props.day);
         return D.div(
             { className: 'event-group' },
             D.h4({ className: 'header' }, this.props.day),
@@ -99,4 +98,43 @@ var App = React.createClass({
     }
 });
 
+var Notification = React.createClass({
+    displayName: 'Notification',
+    notifications: {
+        'addEventsSuccess': {
+            message: 'Успешно беа додадени твоите настани!',
+            type: 'success'
+        },
+        'addEventsFail': {
+            message: 'Се случи грешка при додавањето на твоите настани. :(',
+            type: 'danger'
+        }
+    },
+    _getQueryParams: function() {
+        var urlParams;
+        var match;
+        var pl = /\+/g;  // Regex for replacing addition symbol with a space
+        var search = /([^&=]+)=?([^&]*)/g;
+        var decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
+        var query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query)) {
+            urlParams[decode(match[1])] = decode(match[2]);
+        }
+
+        return urlParams;
+    },
+    getMessageFromUrl: function() {
+        var params = this._getQueryParams();
+        return params.message;
+    },
+    render: function () {
+        var messageId = this.getMessageFromUrl();
+        var messageObj = this.notifications[messageId];
+        return D.div({ className: 'notification alert-' + messageObj.type }, messageObj.message);
+    }
+});
+
 React.renderComponent(App(), document.getElementById("app"));
+React.renderComponent(Notification(), document.getElementById("notification-wrap"));
