@@ -27,7 +27,6 @@ var DB = require('../lib/db-service');
 
 DB.user
     .refreshEventListAll()
-    .then(DB.events.getUniqueTokenEventPairs)
     .then(DB.events.updateEvents)
     .then(function() { console.log('done'); process.exit(0); })
     .catch(function(err) { console.err(err); process.exit(0); });
