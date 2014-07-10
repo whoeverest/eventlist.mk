@@ -132,6 +132,9 @@ var Notification = React.createClass({
     render: function () {
         var messageId = this.getMessageFromUrl();
         var messageObj = this.notifications[messageId];
+
+        if (!messageId) { return; }
+        
         return D.div({ className: 'notification alert-' + messageObj.type }, messageObj.message);
     }
 });
