@@ -24,8 +24,15 @@ var EventThumbnail = React.createClass({
         var bottomPart = D.div({ className: 'bottom-part' },
                                D.span({ className: 'name' }, this.props.name));
 
+        var imgUrl;
+        if (this.props.cover && this.props.cover.source) {
+            imgUrl = this.props.cover.source
+        } else {
+            imgUrl = 'lorempixel.com/555/200/abstract/';
+        }
+
         var style = {
-            backgroundImage: 'url(' + this.props.cover.source + ')'
+            backgroundImage: 'url(' + imgUrl + ')'
         };
 
         return D.div({ className: 'event-thumbnail', style: style},
