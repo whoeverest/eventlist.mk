@@ -26,9 +26,9 @@ var EventThumbnail = React.createClass({
 
         var imgUrl;
         if (this.props.cover && this.props.cover.source) {
-            imgUrl = this.props.cover.source
+            imgUrl = this.props.cover.source;
         } else {
-            imgUrl = 'lorempixel.com/555/200/abstract/';
+            imgUrl = 'http://lorempixel.com/555/200/abstract/';
         }
 
         var style = {
