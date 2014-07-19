@@ -29,4 +29,4 @@ DB.user
     .refreshEventListAll()
     .then(DB.events.updateEvents)
     .then(function() { console.log('done'); process.exit(0); })
-    .catch(function(err) { console.err(err); process.exit(0); });
+    .catch(function(err) { throw err; });
