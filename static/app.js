@@ -83,7 +83,7 @@ var EventGroup = React.createClass({
         var items = this.props.events.map(Event);
         return D.div(
             { className: 'event-group' },
-            D.h4({ className: 'header' }, this.props.day),
+            D.h2({ className: 'header' }, this.props.day),
             D.div(null, items));
     }
 });
@@ -125,15 +125,15 @@ var App = React.createClass({
             var oneDay = 24 * 60 * 60 * 1000;
             if (moment(ev.start_time).dayOfYear() ===
                 moment(Date.now()).dayOfYear()) {
-                return 'денес';
+                return '# денес';
             } else if (moment(ev.start_time).dayOfYear() ===
                        moment(Date.now() + oneDay).dayOfYear()) {
-                return 'утре';
+                return '# утре';
             } else if (moment(ev.start_time).dayOfYear() ===
                        moment(Date.now() - oneDay).dayOfYear()) {
-                return 'вчера';
+                return '# вчера';
             } else {
-                return 'здравје боже';
+                return '# здравје боже';
             }
             //return moment(ev.start_time).format('dddd[, ]Do MMMM');//format('LL');
         });
