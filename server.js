@@ -49,12 +49,6 @@ app.get('/auth/facebook/callback',
             successRedirect: '/?message=addEventsSuccess',
             failureRedirect: '/?message=addEventsFail' }));
 
-app.get('/success', function(req, res) {
-    var id = req.session.passport.user.id;
-    var displayName = req.session.passport.user.displayName;
-    res.end('logged in as ' + id);
-});
-
 app.get('/error', function(req, res) {
     res.end('error');
 });
