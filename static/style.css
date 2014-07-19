@@ -20,6 +20,49 @@ html {
 .event .location {
     color: #333;
 }
+.event-thumbnail {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.event-thumbnail .top-part {
+    padding: 10px;
+    height: 100%;
+}
+.event-thumbnail .bottom-part {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+}
+.event-thumbnail .location {
+    background: red;
+    color: white;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.event-thumbnail .location-url {
+    text-decoration: none;
+}
+.event-thumbnail .event-url {
+    text-decoration: none;
+    color: black;
+}
+.event-thumbnail .start-time {
+    background: black;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.event-thumbnail .name {
+    font-size: 18px;
+}
 .event-group {
     padding-bottom: 20px;
 }

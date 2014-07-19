@@ -1,5 +1,38 @@
 var D = React.DOM;
 
+var EventThumbnail = React.createClass({
+    displayName: 'EventThumbnail',
+    render: function() {
+        var started = moment(this.props.start_time).diff(Date.now()) < 0;
+
+        var timestampText;
+        if (started) {
+            timestampText = 'почна ' + moment(this.props.start_time).fromNow();
+        } else {
+            timestampText = 'почнува ' + moment(this.props.start_time).fromNow();
+        }
+
+        var venueUrl = 'http://facebook.com/' + this.props.venue.id;
+        var eventUrl = 'http://facebook.com/' + this.props.id;
+
+        var topPart = D.div({ className: 'top-part' },
+                            D.a({ className: 'location-url', href: venueUrl },
+                                D.span({ className: 'location' }, this.props.location)),
+                            D.br(null),
+                            D.span({ className: 'start-time' }, timestampText));
+
+        var bottomPart = D.div({ className: 'bottom-part' },
+                               D.span({ className: 'name' }, this.props.name));
+
+        var style = {
+            backgroundImage: 'url(' + this.props.cover.source + ')'
+        };
+
+        return D.div({ className: 'event-thumbnail', style: style},
+                     D.a({ className: 'event-url', href: eventUrl }, topPart, bottomPart));
+    }
+});
+
 var Event = React.createClass({
     displayName: 'Event',
     render: function() {
@@ -25,12 +58,14 @@ var Event = React.createClass({
             hours = '0' + hours;
         }
 
+        return EventThumbnail(this.props);
+
         return D.div(
             { className: 'event'},
             D.a({ href: 'http://facebook.com/' + this.props.id},
                 D.div({ className: 'name' }, this.props.name)),
             D.div({ className: 'whereabouts'},
-                  D.span({ className: 'start-time' }, hours + ':' + minutes),
+                  D.span({ className: 'start-time' }, D.b(null, moment(this.props.start_time).fromNow())),
                   venueEl));
     }
 });
@@ -80,7 +115,20 @@ var App = React.createClass({
             return inName || inDescription || inLocation;
         });
         var groups = _.groupBy(filtered, function(ev) {
-            return moment(ev.start_time).format('dddd[, ]Do MMMM');//format('LL');
+            var oneDay = 24 * 60 * 60 * 1000;
+            if (moment(ev.start_time).dayOfYear() ===
+                moment(Date.now()).dayOfYear()) {
+                return 'денес';
+            } else if (moment(ev.start_time).dayOfYear() ===
+                       moment(Date.now() + oneDay).dayOfYear()) {
+                return 'утре';
+            } else if (moment(ev.start_time).dayOfYear() ===
+                       moment(Date.now() - oneDay).dayOfYear()) {
+                return 'вчера';
+            } else {
+                return 'здравје боже';
+            }
+            //return moment(ev.start_time).format('dddd[, ]Do MMMM');//format('LL');
         });
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
