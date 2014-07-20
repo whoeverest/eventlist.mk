@@ -24,6 +24,8 @@ html {
     height: 200px;
     margin-bottom: 20px;
     position: relative;
+    background-position: center;
+    background-size: cover;
 }
 .event-thumbnail .top-part {
     padding: 10px;

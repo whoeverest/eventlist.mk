@@ -56,10 +56,6 @@ function coverImage(event) {
     }
 }
 
-function venueUrl(event) {
-    
-}
-
 // end of helpers
 
 var EventThumbnail = React.createClass({
