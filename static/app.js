@@ -20,7 +20,7 @@ function isTomorrow(dateObj) {
 }
 
 function nearTodayGroups(ev) {
-    var dayOfWeek = moment(ev.start_time).format('dddd')
+    var dayOfWeek = moment(ev.start_time).format('dddd');
     if (isToday(ev.start_time)) {
         return '# денес, ' + dayOfWeek;
     } else if (isTomorrow(ev.start_time)) {
@@ -38,7 +38,7 @@ function isStarted(dateObj) {
 
 function formatTimestamp(dateObj) {
     if (isTomorrow(dateObj)) {
-        return 'почнува во ' + moment(dateObj).format('hh:mm');
+        return 'почнува во ' + moment(dateObj).format('HH:mm');
     } else {
         if (isStarted(dateObj)) {
             return 'почна ' + moment(dateObj).fromNow();
