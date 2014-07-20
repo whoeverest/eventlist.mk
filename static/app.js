@@ -1,16 +1,66 @@
 var D = React.DOM;
 
+// helpers
+
+function isToday(dateObj) {
+    return moment(dateObj).dayOfYear() ===
+           moment(Date.now()).dayOfYear();
+}
+
+function isYesterday(dateObj) {
+    var oneDay = 24 * 60 * 60 * 1000;
+    return moment(dateObj).dayOfYear() ===
+           moment(Date.now() - oneDay).dayOfYear();
+}
+
+function isTomorrow(dateObj) {
+    var oneDay = 24 * 60 * 60 * 1000;
+    return moment(dateObj).dayOfYear() ===
+           moment(Date.now() + oneDay).dayOfYear();
+}
+
+function nearTodayGroups(ev) {
+    if (isToday(ev.start_time)) {
+        return '# денес';
+    } else if (isTomorrow(ev.start_time)) {
+        return '# утре';
+    } else if (isYesterday(ev.start_time)) {
+        return '# вчера';
+    } else {
+        return '# здравје боже';
+    }
+}
+
+function isStarted(dateObj) {
+    return moment(dateObj).diff(Date.now()) < 0;
+}
+
+function formatTimestamp(dateObj) {
+    if (isTomorrow(dateObj)) {
+        return 'почнува во ' + moment(dateObj).format('hh:mm');
+    } else {
+        if (isStarted(dateObj)) {
+            return 'почна ' + moment(dateObj).fromNow();
+        } else {
+            return 'почнува ' + moment(dateObj).fromNow();
+        }
+    }
+}
+
+function coverImage(event) {
+    if (event.cover && event.cover.source) {
+        return event.cover.source;
+    } else {
+        return 'http://lorempixel.com/555/200/abstract/';
+    }
+}
+
+// end of helpers
+
 var EventThumbnail = React.createClass({
     displayName: 'EventThumbnail',
     render: function() {
-        var started = moment(this.props.start_time).diff(Date.now()) < 0;
-
-        var timestampText;
-        if (started) {
-            timestampText = 'почна ' + moment(this.props.start_time).fromNow();
-        } else {
-            timestampText = 'почнува ' + moment(this.props.start_time).fromNow();
-        }
+        var timestampText = formatTimestamp(this.props.start_time);
 
         var venueUrl = 'http://facebook.com/' + this.props.venue.id;
         var eventUrl = 'http://facebook.com/' + this.props.id;
@@ -24,12 +74,7 @@ var EventThumbnail = React.createClass({
         var bottomPart = D.div({ className: 'bottom-part' },
                                D.span({ className: 'name' }, this.props.name));
 
-        var imgUrl;
-        if (this.props.cover && this.props.cover.source) {
-            imgUrl = this.props.cover.source;
-        } else {
-            imgUrl = 'http://lorempixel.com/555/200/abstract/';
-        }
+        var imgUrl = coverImage(this.props);
 
         var style = {
             backgroundImage: 'url(' + imgUrl + ')'
@@ -65,15 +110,17 @@ var Event = React.createClass({
             hours = '0' + hours;
         }
 
-        return EventThumbnail(this.props);
-
-        return D.div(
-            { className: 'event'},
-            D.a({ href: 'http://facebook.com/' + this.props.id},
-                D.div({ className: 'name' }, this.props.name)),
-            D.div({ className: 'whereabouts'},
-                  D.span({ className: 'start-time' }, D.b(null, moment(this.props.start_time).fromNow())),
-                  venueEl));
+        if (isYesterday(startDate) || isToday(startDate) || isTomorrow(startDate)) {
+            return EventThumbnail(this.props);
+        } else {
+            return D.div(
+                { className: 'event'},
+                D.a({ href: 'http://facebook.com/' + this.props.id},
+                    D.div({ className: 'name' }, this.props.name)),
+                D.div({ className: 'whereabouts'},
+                      D.span({ className: 'start-time' }, D.b(null, moment(this.props.start_time).fromNow())),
+                      venueEl));
+        }
     }
 });
 
@@ -121,25 +168,13 @@ var App = React.createClass({
                 false;
             return inName || inDescription || inLocation;
         });
-        var groups = _.groupBy(filtered, function(ev) {
-            var oneDay = 24 * 60 * 60 * 1000;
-            if (moment(ev.start_time).dayOfYear() ===
-                moment(Date.now()).dayOfYear()) {
-                return '# денес';
-            } else if (moment(ev.start_time).dayOfYear() ===
-                       moment(Date.now() + oneDay).dayOfYear()) {
-                return '# утре';
-            } else if (moment(ev.start_time).dayOfYear() ===
-                       moment(Date.now() - oneDay).dayOfYear()) {
-                return '# вчера';
-            } else {
-                return '# здравје боже';
-            }
-            //return moment(ev.start_time).format('dddd[, ]Do MMMM');//format('LL');
-        });
+
+        var groups = _.groupBy(filtered, nearTodayGroups);
+
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
         });
+
         return D.div(
             { className: 'event-list' },
             D.input({
@@ -188,8 +223,8 @@ var Notification = React.createClass({
         var messageId = this.getMessageFromUrl();
         var messageObj = this.notifications[messageId];
 
-        if (!messageId) { return; }
-        
+        if (!messageId) { return D.div(null); }
+
         return D.div({ className: 'notification alert-' + messageObj.type }, messageObj.message);
     }
 });
