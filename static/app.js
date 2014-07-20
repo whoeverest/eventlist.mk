@@ -73,7 +73,7 @@ var EventThumbnail = React.createClass({
                             D.span({ className: 'start-time' }, timestampText));
 
         var bottomPart = D.div({ className: 'bottom-part' },
-                               D.span({ className: 'name' }, this.props.name));
+                               D.a({ className: 'event-url', href: eventUrl }, D.span({ className: 'name' }, this.props.name)));
 
         var imgUrl = coverImage(this.props);
 
@@ -81,8 +81,7 @@ var EventThumbnail = React.createClass({
             backgroundImage: 'url(' + imgUrl + ')'
         };
 
-        return D.div({ className: 'event-thumbnail', style: style},
-                     D.a({ className: 'event-url', href: eventUrl }, topPart, bottomPart));
+        return D.div({ className: 'event-thumbnail', style: style}, topPart, bottomPart);
     }
 });
 
