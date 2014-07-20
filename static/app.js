@@ -171,19 +171,19 @@ var App = React.createClass({
     },
     render: function() {
         var self = this;
-        var filtered = _.filter(this.state.events, function(e) {
-            var filterTextLower = self.state.filterText.toLocaleLowerCase();
-            var inName =  e.name.toLocaleLowerCase().indexOf(filterTextLower) >= 0;
-            var inDescription = e.description ?
-                e.description.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-                false;
-            var inLocation = e.location ?
-                e.location.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-                false;
-            return inName || inDescription || inLocation;
-        });
+        // var filtered = _.filter(this.state.events, function(e) {
+        //     var filterTextLower = self.state.filterText.toLocaleLowerCase();
+        //     var inName =  e.name.toLocaleLowerCase().indexOf(filterTextLower) >= 0;
+        //     var inDescription = e.description ?
+        //         e.description.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
+        //         false;
+        //     var inLocation = e.location ?
+        //         e.location.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
+        //         false;
+        //     return inName || inDescription || inLocation;
+        // });
 
-        var groups = _.groupBy(filtered, nearTodayGroups);
+        var groups = _.groupBy(this.state.events, nearTodayGroups);
 
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
@@ -191,13 +191,13 @@ var App = React.createClass({
 
         return D.div(
             { className: 'event-list' },
-            D.input({
-                type: 'text',
-                className: 'search-box',
-                value: this.state.filterText,
-                onChange: this.updateFilter,
-                placeholder: 'Пребарај...'
-            }),
+            // D.input({
+            //     type: 'text',
+            //     className: 'search-box',
+            //     value: this.state.filterText,
+            //     onChange: this.updateFilter,
+            //     placeholder: 'Пребарај...'
+            // }),
             items);
     }
 });
