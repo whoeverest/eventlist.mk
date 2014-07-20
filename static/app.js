@@ -41,9 +41,9 @@ function formatTimestamp(dateObj) {
         return 'почнува во ' + moment(dateObj).format('HH:mm');
     } else {
         if (isStarted(dateObj)) {
-            return 'почна ' + moment(dateObj).fromNow();
+            return 'почна ' + moment(dateObj).fromNow() + ', во ' + moment(dateObj).format('HH:mm');
         } else {
-            return 'почнува ' + moment(dateObj).fromNow();
+            return 'почнува ' + moment(dateObj).fromNow() + ', во ' + moment(dateObj).format('HH:mm');
         }
     }
 }
