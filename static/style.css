@@ -50,6 +50,7 @@ html {
     font-weight: bold;
     padding-left: 5px;
     padding-right: 5px;
+    font-size: 16px;
 }
 .event-thumbnail .location-url {
     text-decoration: none;
@@ -63,6 +64,7 @@ html {
     color: white;
     padding-left: 5px;
     padding-right: 5px;
+    font-size: 16px;
 }
 .event-thumbnail .name {
     font-size: 18px;
