@@ -66,6 +66,16 @@ var EventThumbnail = React.createClass({
         var venueUrl = 'http://facebook.com/' + this.props.venue.id;
         var eventUrl = 'http://facebook.com/' + this.props.id;
 
+        // var venueEl;
+        // if (this.props.venue && this.props.venue.id && this.props.location) {
+        //     venueEl = D.a({
+        //         href: 'http://facebook.com/' + this.props.venue.id,
+        //         className: 'location'}, this.props.location);
+        // } else {
+        //     var locationText = this.props.location ? this.props.location : '';
+        //     venueEl = D.span(null, locationText);
+        // }
+
         var topPart = D.div({ className: 'top-part' },
                             D.a({ className: 'location-url', href: venueUrl },
                                 D.span({ className: 'location' }, this.props.location)),
@@ -73,7 +83,9 @@ var EventThumbnail = React.createClass({
                             D.span({ className: 'start-time' }, timestampText));
 
         var bottomPart = D.div({ className: 'bottom-part' },
-                               D.a({ className: 'event-url', href: eventUrl }, D.span({ className: 'name' }, this.props.name)));
+                               D.a({ className: 'event-url', href: eventUrl },
+                                   D.span({ className: 'name' },
+                                          this.props.name)));
 
         var imgUrl = coverImage(this.props);
 
@@ -81,7 +93,9 @@ var EventThumbnail = React.createClass({
             backgroundImage: 'url(' + imgUrl + ')'
         };
 
-        return D.div({ className: 'event-thumbnail', style: style}, topPart, bottomPart);
+        var innerEl = D.div({ className: 'overlay' }, topPart, bottomPart);
+
+        return D.div({ className: 'event-thumbnail', style: style}, innerEl);
     }
 });
 
