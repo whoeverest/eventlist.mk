@@ -15,6 +15,7 @@ html {
 }
 .event .start-time {
     margin-right: 5px;
+    cursor: text;
 }
 .event .location {
     color: #333;
@@ -26,6 +27,7 @@ html {
     position: relative;
     background-position: center;
     background-size: cover;
+    cursor: pointer;
 }
 .event-thumbnail .overlay {
     width: 100%;

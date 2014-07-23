@@ -60,21 +60,16 @@ function coverImage(event) {
 
 var EventThumbnail = React.createClass({
     displayName: 'EventThumbnail',
+    onClick: function(event) {
+        window.open('http://facebook.com/' + this.props.id);
+    },
     render: function() {
         var timestampText = formatTimestamp(this.props.start_time);
 
-        var venueUrl = 'http://facebook.com/' + this.props.venue.id;
+        var venueUrl = this.props.venue.id ?
+            'http://facebook.com/' + this.props.venue.id:
+            '#';
         var eventUrl = 'http://facebook.com/' + this.props.id;
-
-        // var venueEl;
-        // if (this.props.venue && this.props.venue.id && this.props.location) {
-        //     venueEl = D.a({
-        //         href: 'http://facebook.com/' + this.props.venue.id,
-        //         className: 'location'}, this.props.location);
-        // } else {
-        //     var locationText = this.props.location ? this.props.location : '';
-        //     venueEl = D.span(null, locationText);
-        // }
 
         var topPart = D.div({ className: 'top-part' },
                             D.a({ className: 'location-url', href: venueUrl },
@@ -95,7 +90,7 @@ var EventThumbnail = React.createClass({
 
         var innerEl = D.div({ className: 'overlay' }, topPart, bottomPart);
 
-        return D.div({ className: 'event-thumbnail', style: style}, innerEl);
+        return D.div({ className: 'event-thumbnail', style: style, onClick: this.onClick}, innerEl);
     }
 });
 
