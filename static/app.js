@@ -73,7 +73,7 @@ var EventThumbnail = React.createClass({
 
         var topPart = D.div({ className: 'top-part' },
                             D.a({ className: 'location-url', href: venueUrl },
-                                D.span({ className: 'location' }, this.props.location)),
+                                D.span({ className: 'location' }, this.props.location || '/')),
                             D.br(null),
                             D.span({ className: 'start-time' }, timestampText));
 
@@ -107,7 +107,7 @@ var Event = React.createClass({
                 href: 'http://facebook.com/' + this.props.venue.id,
                 className: 'location'}, this.props.location);
         } else {
-            var locationText = this.props.location ? this.props.location : '';
+            var locationText = this.props.location ? this.props.location : '/';
             venueEl = D.span(null, locationText);
         }
 
