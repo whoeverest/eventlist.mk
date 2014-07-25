@@ -66,7 +66,7 @@ var EventThumbnail = React.createClass({
     render: function() {
         var timestampText = formatTimestamp(this.props.start_time);
 
-        var venueUrl = this.props.venue.id ?
+        var venueUrl = (this.props.venue && this.props.venue.id) ?
             'http://facebook.com/' + this.props.venue.id:
             '#';
         var eventUrl = 'http://facebook.com/' + this.props.id;
