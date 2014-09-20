@@ -139,7 +139,7 @@ var EventGroup = React.createClass({
         var items = this.props.events.map(Event);
         return D.div(
             { className: 'event-group' },
-            D.h2({ className: 'header' }, this.props.day),
+            D.h3({ className: 'header' }, this.props.day),
             D.div(null, items));
     }
 });
