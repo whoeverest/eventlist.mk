@@ -11,7 +11,7 @@ html {
     margin-bottom: 20px;
 }
 .event .name {
-    font-size: 20px;
+    font-size: 1.4em;
 }
 .event .start-time {
     margin-right: 5px;
@@ -52,7 +52,7 @@ html {
     font-weight: bold;
     padding-left: 5px;
     padding-right: 5px;
-    font-size: 16px;
+    font-size: 1.2em;
 }
 .event-thumbnail .location-url {
     text-decoration: none;
@@ -66,10 +66,10 @@ html {
     color: white;
     padding-left: 5px;
     padding-right: 5px;
-    font-size: 16px;
+    font-size: 1.2em;
 }
 .event-thumbnail .name {
-    font-size: 18px;
+    font-size: 1.3em;
     color: white;
 }
 .event-group {
