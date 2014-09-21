@@ -11,7 +11,7 @@ html {
     margin-bottom: 20px;
 }
 .event .name {
-    font-size: 16px;
+    font-size: 20px;
 }
 .event .start-time {
     margin-right: 5px;
@@ -76,14 +76,8 @@ html {
     padding-bottom: 100px;
 }
 .event-group .header {
-    position: relative;
-    font-weight: bold;
-    background: #333;
-    padding: 10px;
-    color: white;
+    font-size: 4em;
     margin-bottom: 20px;
-    margin-left: -3%;
-    width: 106%;
 }
 
 .notification {

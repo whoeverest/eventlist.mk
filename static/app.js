@@ -22,13 +22,13 @@ function isTomorrow(dateObj) {
 function nearTodayGroups(ev) {
     var dayOfWeek = moment(ev.start_time).format('dddd');
     if (isToday(ev.start_time)) {
-        return '# денес, ' + dayOfWeek;
+        return 'денес, ' + dayOfWeek;
     } else if (isTomorrow(ev.start_time)) {
-        return '# утре, ' + dayOfWeek;
+        return 'утре, ' + dayOfWeek;
     } else if (isYesterday(ev.start_time)) {
-        return '# вчера, ' + dayOfWeek;
+        return 'вчера, ' + dayOfWeek;
     } else {
-        return '# здравје боже';
+        return 'здравје боже';
     }
 }
 
