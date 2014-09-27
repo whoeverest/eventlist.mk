@@ -70,6 +70,7 @@ html {
 }
 .event-thumbnail .name {
     font-size: 1.3em;
+    font-weight: bold;
     color: white;
 }
 .event-group {
