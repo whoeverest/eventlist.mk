@@ -37,7 +37,7 @@ var app = express();
 app.use(connect.static(__dirname + '/static'));
 app.use(connect.cookieParser());
 app.use(connect.bodyParser());
-app.use(connect.session({ secret: 'keyboard cat' }));
+app.use(connect.session({ secret: 'OO*gh84f2oiyfu28g24oiugfvy2498gy2498g2y4iugfev' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
