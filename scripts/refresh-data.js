@@ -28,5 +28,6 @@ var DB = require('../lib/db-service');
 DB.user
     .refreshEventListAll()
     .then(DB.events.updateEvents)
+    .then(DB.events.removeSecret)
     .then(function() { console.log('done'); process.exit(0); })
     .catch(function(err) { console.log(err); process.exit(0); });
