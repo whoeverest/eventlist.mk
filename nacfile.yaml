@@ -3,4 +3,3 @@ args: [server.js]
 scripts:
   deploy: "./scripts/deploy.sh"
   refresh: "./scripts/refresh-data.js"
-  removeCanceled: "./scripts/remove-canceled.js"
