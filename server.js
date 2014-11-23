@@ -2,7 +2,9 @@ var express = require('express');
 var connect = require('connect');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var r = require('rethinkdb');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+var fs = require('fs');
 
 var db = require('./lib/db-service');
 
@@ -11,12 +13,10 @@ var strategy = new FacebookStrategy({
     clientSecret: "c5197e02fc6fad6537162806cf161f0b",
     callbackURL: "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    db.user.insert(profile.id, profile._json.name, accessToken)/*.then(function() {
-        return db.user.refreshEventList(profile.id);
-    }).then(function() {
-        return db.events.updateEvents();
-    })*/.then(function() {
-        done(null, profile);
+    db.user.insert(profile.id, profile._json.name, accessToken).then(function() {
+        return db.user.get(profile.id).then(function(user) {
+            done(null, user);
+        });
     }).error(function() {
         done('error inserting user with id');
     });
@@ -29,7 +29,11 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-    done(null, user);
+    db.user.get(user.id).then(function(user) {
+        done(null, user);
+    }).error(function() {
+        done('Error deserializing user');
+    });
 });
 
 var app = express();
@@ -37,7 +41,10 @@ var app = express();
 app.use(connect.static(__dirname + '/static'));
 app.use(connect.cookieParser());
 app.use(connect.bodyParser());
-app.use(connect.session({ secret: 'OO*gh84f2oiyfu28g24oiugfvy2498gy2498g2y4iugfev' }));
+app.use(connect.session({
+    secret: 'OO*gh84f2oiyfu28g24oiugfvy2498gy2498g2y4iugfev',
+    store: new RedisStore()
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -60,6 +67,23 @@ app.get('/events', function(req, res) {
         console.log(err);
         res.json({ error: 'error' });
     });
+});
+
+app.get('/', function(req, res) {
+    var oneMonth = Date.now() - (30 * 24 * 60 * 60 * 1000);
+
+    var tokenIsOld;
+    try {
+        tokenIsOld = req.session.passport.user.updated < oneMonth;
+    } catch (e) {
+        tokenIsOld = false;
+    }
+
+    if (tokenIsOld) {
+        res.redirect('/auth/facebook');
+    } else {
+        res.end(fs.readFileSync('./index.html'));
+    }
 });
 
 console.log('Server started');
