@@ -3,3 +3,4 @@ args: [server.js]
 scripts:
   deploy: "./scripts/deploy.sh"
   refresh: "./scripts/refresh-data.js"
+  backup: "./scripts/backup.sh"
