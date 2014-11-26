@@ -149,7 +149,7 @@ var App = React.createClass({
     componentWillMount: function() {
         var self = this;
         $.getJSON('/events', function(events) {
-            var events = _.sortBy(events, function(ev) {
+            events = _.sortBy(events, function(ev) {
                 return ev.start_time;
             });
             self.setState({ events: events });
@@ -165,35 +165,13 @@ var App = React.createClass({
         });
     },
     render: function() {
-        var self = this;
-        // var filtered = _.filter(this.state.events, function(e) {
-        //     var filterTextLower = self.state.filterText.toLocaleLowerCase();
-        //     var inName =  e.name.toLocaleLowerCase().indexOf(filterTextLower) >= 0;
-        //     var inDescription = e.description ?
-        //         e.description.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-        //         false;
-        //     var inLocation = e.location ?
-        //         e.location.toLocaleLowerCase().indexOf(filterTextLower) >= 0 :
-        //         false;
-        //     return inName || inDescription || inLocation;
-        // });
-
         var groups = _.groupBy(this.state.events, nearTodayGroups);
 
         var items = _.map(groups, function(val, key) {
             return EventGroup({ day: key, events: val });
         });
 
-        return D.div(
-            { className: 'event-list' },
-            // D.input({
-            //     type: 'text',
-            //     className: 'search-box',
-            //     value: this.state.filterText,
-            //     onChange: this.updateFilter,
-            //     placeholder: 'Пребарај...'
-            // }),
-            items);
+        return D.div({ className: 'event-list' }, items);
     }
 });
 
@@ -238,5 +216,26 @@ var Notification = React.createClass({
     }
 });
 
+var Stats = React.createClass({
+    displayName: 'Stats',
+    getInitialState: function() {
+        return { userCount: 0, eventCount: 0 };
+    },
+    componentWillMount: function() {
+        var self = this;
+        $.getJSON('/stats', function(stats) {
+            self.setState({
+                userCount: stats.userCount,
+                eventCount: stats.eventCount
+            });
+        });
+    },
+    render: function() {
+        var content = 'Корисници: ' + this.state.userCount + ' / Настани: ' + this.state.eventCount;
+        return D.div(null, D.div(null, content));
+    }
+});
+
 React.renderComponent(App(), document.getElementById("app"));
 React.renderComponent(Notification(), document.getElementById("notification-wrap"));
+React.renderComponent(Stats(), document.getElementById("stats"));

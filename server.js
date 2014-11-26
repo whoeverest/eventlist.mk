@@ -69,6 +69,14 @@ app.get('/events', function(req, res) {
     });
 });
 
+app.get('/stats', function(req, res) {
+    db.general.stats().then(function(stats) {
+        res.json(stats);
+    }).error(function() {
+        console.log('err');
+    });
+});
+
 app.get('/', function(req, res) {
     var oneMonth = Date.now() - (30 * 24 * 60 * 60 * 1000);
 
