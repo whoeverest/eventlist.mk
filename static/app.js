@@ -219,7 +219,7 @@ var Notification = React.createClass({
 var Stats = React.createClass({
     displayName: 'Stats',
     getInitialState: function() {
-        return { userCount: 0, eventCount: 0 };
+        return { userCount: 0, eventCount: 0, lastRefreshed: undefined };
     },
     componentWillMount: function() {
         var self = this;
@@ -235,7 +235,7 @@ var Stats = React.createClass({
         var content =
             'Корисници: ' + this.state.userCount +
             ' / Настани: ' + this.state.eventCount +
-            ' / Освежено: ' + moment(this.state.lastRefreshed).fromNow();
+            ' / Освежено: ' + (this.state.lastRefreshed ? moment(this.state.lastRefreshed).fromNow() : 'не знам кога.');
         return D.div(null, D.div(null, content));
     }
 });
