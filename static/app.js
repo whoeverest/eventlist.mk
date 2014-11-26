@@ -60,37 +60,27 @@ function coverImage(event) {
 
 var EventThumbnail = React.createClass({
     displayName: 'EventThumbnail',
-    onClick: function(event) {
-        window.open('http://facebook.com/' + this.props.id);
-    },
     render: function() {
         var timestampText = formatTimestamp(this.props.start_time);
-
-        var venueUrl = (this.props.venue && this.props.venue.id) ?
-            'http://facebook.com/' + this.props.venue.id:
-            '#';
+        // var venueUrl = (this.props.venue && this.props.venue.id) ?
+        //     ('http://facebook.com/' + this.props.venue.id) : '#';
         var eventUrl = 'http://facebook.com/' + this.props.id;
-
-        var topPart = D.div({ className: 'top-part' },
-                            D.a({ className: 'location-url', href: venueUrl },
-                                D.span({ className: 'location' }, this.props.location || '/')),
-                            D.br(null),
-                            D.span({ className: 'start-time' }, timestampText));
-
-        var bottomPart = D.div({ className: 'bottom-part' },
-                               D.a({ className: 'event-url', href: eventUrl },
-                                   D.span({ className: 'name' },
-                                          this.props.name)));
-
         var imgUrl = coverImage(this.props);
 
-        var style = {
-            backgroundImage: 'url(' + imgUrl + ')'
-        };
+        var style = { backgroundImage: 'url(' + imgUrl + ')' };
+        var coverImageEl = D.a({ href: eventUrl }, D.div({
+            className: 'cover-image', style: style
+        }));
 
-        var innerEl = D.div({ className: 'overlay' }, topPart, bottomPart);
+        var venue = this.props.location || '<нема локација>';
 
-        return D.div({ className: 'event-thumbnail', style: style, onClick: this.onClick}, innerEl);
+        return D.div({ className: 'event-thumbnail'},
+                     coverImageEl,
+                     D.div({ className: 'info' },
+                           D.div({ className: 'whereabout' },
+                                 D.div({ className: 'venue' }, venue),
+                                 D.div({ className: 'time' }, timestampText)),
+                           D.a({ className: 'name', href: eventUrl }, this.props.name)));
     }
 });
 
