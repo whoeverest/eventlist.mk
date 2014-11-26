@@ -226,12 +226,16 @@ var Stats = React.createClass({
         $.getJSON('/stats', function(stats) {
             self.setState({
                 userCount: stats.userCount,
-                eventCount: stats.eventCount
+                eventCount: stats.eventCount,
+                lastRefreshed: stats.lastRefreshed
             });
         });
     },
     render: function() {
-        var content = 'Корисници: ' + this.state.userCount + ' / Настани: ' + this.state.eventCount;
+        var content =
+            'Корисници: ' + this.state.userCount +
+            ' / Настани: ' + this.state.eventCount +
+            ' / Освежено: ' + moment(this.state.lastRefreshed).fromNow();
         return D.div(null, D.div(null, content));
     }
 });
