@@ -56,6 +56,29 @@ function coverImage(event) {
     }
 }
 
+function smartShorten(str, length) {
+    var chunks = str.split(' ');
+    var resArr = [];
+    var letterCount = 0;
+    var shortened = false;
+    for (var i = 0; i < chunks.length; i++) {
+        if (letterCount >= length) {
+            shortened = true;
+            break;
+        }
+        letterCount += chunks[i].length;
+        resArr.push(chunks[i]);
+    }
+
+    var res = resArr.join(' ');
+
+    if (shortened) {
+        res += '...';
+    }
+
+    return res;
+}
+
 // end of helpers
 
 var EventThumbnail = React.createClass({
@@ -72,7 +95,7 @@ var EventThumbnail = React.createClass({
             className: 'cover-image', style: style
         }));
 
-        var venue = this.props.location || '<нема локација>';
+        var venue = smartShorten(this.props.location, 30) || '<нема локација>';
 
         return D.div({ className: 'event-thumbnail'},
                      coverImageEl,
