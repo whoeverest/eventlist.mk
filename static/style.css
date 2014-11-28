@@ -58,10 +58,10 @@ html {
     color: black;
 }
 .event-thumbnail .venue {
-    float: left;
+    float: right;
 }
 .event-thumbnail .time {
-    float: right;
+    float: left;
 }
 .event-thumbnail .whereabout {
     font-size: 14px;

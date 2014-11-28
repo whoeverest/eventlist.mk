@@ -78,8 +78,8 @@ var EventThumbnail = React.createClass({
                      coverImageEl,
                      D.div({ className: 'info' },
                            D.div({ className: 'whereabout' },
-                                 D.div({ className: 'venue' }, venue),
-                                 D.div({ className: 'time' }, timestampText)),
+                                 D.div({ className: 'time' }, timestampText),
+                                 D.div({ className: 'venue' }, venue)),
                            D.a({ className: 'name', href: eventUrl }, this.props.name)));
     }
 });
