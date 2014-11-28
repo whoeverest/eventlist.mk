@@ -2,11 +2,6 @@ html {
     overflow: -moz-scrollbars-vertical; 
     overflow-y: scroll;
 }
-.search-box {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
 .event {
     margin-bottom: 20px;
 }
@@ -25,7 +20,7 @@ html {
 }
 .event-group .header {
     font-size: 3em;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .notification {
@@ -41,7 +36,7 @@ html {
     min-height: 200px;
     border: 1px solid #ddd;
     border-radius: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     box-shadow: 0px 2px #ddd;
 }
 .event-thumbnail .cover-image {
