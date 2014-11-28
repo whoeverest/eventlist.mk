@@ -32,7 +32,6 @@ html {
 /* new */
 
 .event-thumbnail {
-    width: 555px;
     min-height: 200px;
     border: 1px solid #ddd;
     border-radius: 2px;
@@ -48,14 +47,14 @@ html {
 }
 .event-thumbnail .name {
     font-size: 20px;
-    font-weight: bold;
     width: 100%;
-    color: black;
+    color: #333;
 }
 .event-thumbnail .venue {
     float: right;
 }
 .event-thumbnail .time {
+    font-weight: bold;
     float: left;
 }
 .event-thumbnail .whereabout {
