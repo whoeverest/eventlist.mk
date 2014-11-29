@@ -85,8 +85,6 @@ var EventThumbnail = React.createClass({
     displayName: 'EventThumbnail',
     render: function() {
         var timestampText = formatTimestamp(this.props.start_time);
-        // var venueUrl = (this.props.venue && this.props.venue.id) ?
-        //     ('http://facebook.com/' + this.props.venue.id) : '#';
         var eventUrl = 'http://facebook.com/' + this.props.id;
         var imgUrl = coverImage(this.props);
 
@@ -101,58 +99,19 @@ var EventThumbnail = React.createClass({
                      coverImageEl,
                      D.div({ className: 'info' },
                            D.div({ className: 'whereabout' },
-                                 D.div({ className: 'time' }, timestampText),
+                                 D.strong({ className: 'time' }, timestampText),
                                  D.div({ className: 'venue' }, venue)),
                            D.a({ className: 'name', href: eventUrl }, this.props.name)));
-    }
-});
-
-var Event = React.createClass({
-    displayName: 'Event',
-    render: function() {
-        var startDate = new Date(this.props.start_time);
-        var minutes = startDate.getMinutes();
-        var hours = startDate.getHours();
-
-        var venueEl;
-        if (this.props.venue && this.props.venue.id && this.props.location) {
-            venueEl = D.a({
-                href: 'http://facebook.com/' + this.props.venue.id,
-                className: 'location'}, this.props.location);
-        } else {
-            var locationText = this.props.location ? this.props.location : '/';
-            venueEl = D.span(null, locationText);
-        }
-
-        if (minutes.toString().length === 1) {
-            minutes = '0' + minutes;
-        }
-
-        if (hours.toString().length === 1) {
-            hours = '0' + hours;
-        }
-
-        if (isYesterday(startDate) || isToday(startDate) || isTomorrow(startDate)) {
-            return EventThumbnail(this.props);
-        } else {
-            return D.div(
-                { className: 'event'},
-                D.a({ href: 'http://facebook.com/' + this.props.id},
-                    D.div({ className: 'name' }, this.props.name)),
-                D.div({ className: 'whereabouts'},
-                      D.span({ className: 'start-time' }, D.b(null, moment(this.props.start_time).fromNow())),
-                      venueEl));
-        }
     }
 });
 
 var EventGroup = React.createClass({
     displayName: 'EventGroup',
     render: function() {
-        var items = this.props.events.map(Event);
+        var items = this.props.events.map(EventThumbnail);
         return D.div(
             { className: 'event-group' },
-            D.h3({ className: 'header' }, this.props.day),
+            D.h1({ className: 'header' }, this.props.day),
             D.div(null, items));
     }
 });
@@ -169,12 +128,11 @@ var App = React.createClass({
         });
     },
     getInitialState: function() {
-        return { events: [], filterText: '' };
+        return { events: [] };
     },
     updateFilter: function(e) {
         this.setState({
-            events: this.state.events,
-            filterText: e.target.value
+            events: this.state.events
         });
     },
     render: function() {
@@ -249,7 +207,7 @@ var Stats = React.createClass({
             'Корисници: ' + this.state.userCount +
             ' / Настани: ' + this.state.eventCount +
             ' / Освежено: ' + (this.state.lastRefreshed ? moment(this.state.lastRefreshed).fromNow() : 'не знам кога.');
-        return D.div(null, D.div(null, content));
+        return D.div(null, content);
     }
 });
 

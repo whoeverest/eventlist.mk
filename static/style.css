@@ -2,35 +2,14 @@ html {
     overflow: -moz-scrollbars-vertical; 
     overflow-y: scroll;
 }
-.event {
-    margin-bottom: 20px;
-}
-.event .name {
-    font-size: 1.4em;
-}
-.event .start-time {
-    margin-right: 5px;
-    cursor: text;
-}
-.event .location {
-    color: #333;
-}
-.event-group {
-    padding-bottom: 100px;
-}
-.event-group .header {
-    font-size: 3em;
-    margin-bottom: 30px;
-}
-
 .notification {
     width: 100%;
     padding: 5px;
     text-align: center;
 }
-
-/* new */
-
+.event-group {
+    margin-top: 2em;
+}
 .event-thumbnail {
     min-height: 200px;
     border: 1px solid #ddd;
@@ -46,20 +25,17 @@ html {
     border-top-right-radius: 2px;
 }
 .event-thumbnail .name {
-    font-size: 20px;
-    width: 100%;
+    font-size: 1.2em;
     color: #333;
 }
 .event-thumbnail .venue {
     float: right;
 }
 .event-thumbnail .time {
-    font-weight: bold;
     float: left;
 }
 .event-thumbnail .whereabout {
-    font-size: 14px;
-    height: 20px;
+    overflow: auto;
 }
 .event-thumbnail .info {
     padding: 5px;
