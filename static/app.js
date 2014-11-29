@@ -79,6 +79,43 @@ function smartShorten(str, length) {
     return res;
 }
 
+function distanceFromUserKm(event, userLocation) {
+    if (!event.venue || !event.venue.latitude) {
+        console.log('a');
+        return null;
+    }
+    if (!userLocation) {
+        console.log('b');
+        return null;
+    }
+
+    return getDistanceFromLatLonInKm(event.venue.latitude,
+                                                 event.venue.longitude,
+                                                 userLocation.latitude,
+                                                 userLocation.longitude);
+}
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1);
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180);
+}
+
+function askForLocation() {
+    a.updateUserPosition();
+    console.log('set location');
+}
+
 // end of helpers
 
 var EventThumbnail = React.createClass({
@@ -94,13 +131,24 @@ var EventThumbnail = React.createClass({
         }));
 
         var venue = smartShorten(this.props.location, 30) || '<нема локација>';
+        var venueText = ' ' + venue;
+
+        if (this.props.distanceFromUser) {
+            venueText += ' (' + this.props.distanceFromUser.toFixed(2) + 'km' + ')';
+         }
+
+        var venueEl = D.div({ className: 'venue' },
+                            D.span({ className: 'glyphicon glyphicon-home' }),
+                            venueText);
+
+        var timeEl = D.strong({ className: 'time' },
+                              D.span({ className: 'glyphicon glyphicon-time' }),
+                              ' ' + timestampText);
 
         return D.div({ className: 'event-thumbnail'},
                      coverImageEl,
                      D.div({ className: 'info' },
-                           D.div({ className: 'whereabout' },
-                                 D.strong({ className: 'time' }, D.span({ className: 'glyphicon glyphicon-time' }), ' ' + timestampText),
-                                 D.div({ className: 'venue' }, D.span({ className: 'glyphicon glyphicon-home' }), ' ' + venue)),
+                           D.div({ className: 'whereabout' }, timeEl, venueEl),
                            D.a({ className: 'name', href: eventUrl }, this.props.name)));
     }
 });
@@ -130,11 +178,6 @@ var App = React.createClass({
     getInitialState: function() {
         return { events: [] };
     },
-    updateFilter: function(e) {
-        this.setState({
-            events: this.state.events
-        });
-    },
     render: function() {
         var groups = _.groupBy(this.state.events, nearTodayGroups);
 
@@ -142,7 +185,26 @@ var App = React.createClass({
             return EventGroup({ day: key, events: val });
         });
 
-        return D.div({ className: 'event-list' }, items);
+        return D.div(null,
+                     Header({ askForLocation: this.askForLocation }),
+                     D.div({ className: 'event-list' }, items));
+    },
+    updateUserPosition: function(coordObj) {
+        if (!coordObj || !coordObj.coords || !coordObj.coords.latitude) {
+            return;
+        }
+        var userLocation = {
+            latitude: coordObj.coords.latitude,
+            longitude: coordObj.coords.longitude
+        };
+        var eventsWithDist = this.state.events.map(function(ev) {
+            ev.distanceFromUser = distanceFromUserKm(ev, userLocation);
+            return ev;
+        });
+        this.setState({ events: eventsWithDist });
+    },
+    askForLocation: function() {
+        navigator.geolocation.getCurrentPosition(this.updateUserPosition);
     }
 });
 
@@ -211,6 +273,25 @@ var Stats = React.createClass({
     }
 });
 
+var Header = React.createClass({
+    displayName: 'Header',
+    render: function() {
+        var logo = D.h1(null, 'EventList.mk');
+        var stats = D.h4(null, Stats());
+        var addEventsBtn = D.a({ className: 'btn btn-primary btn-sm', href: "/auth/facebook"},
+                               D.span({ className: 'glyphicon glyphicon-plus'}),
+                               ' Додади ги и моите Facebook настани');
+        var askLocationBtn = D.a({ className: 'btn btn-success btn-sm', onClick: this.props.askForLocation },
+                                 D.span({ className: 'glyphicon glyphicon-map-marker' }),
+                                 ' Лоцирај ме');
+
+        return D.div(null,
+                     logo,
+                     stats, D.div({ className: 'btn-group', role: 'group'},
+                                  addEventsBtn,
+                                  askLocationBtn));
+    }
+});
+
 React.renderComponent(App(), document.getElementById("app"));
 React.renderComponent(Notification(), document.getElementById("notification-wrap"));
-React.renderComponent(Stats(), document.getElementById("stats"));
