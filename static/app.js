@@ -281,7 +281,7 @@ var Header = React.createClass({
         var addEventsBtn = D.a({ className: 'btn btn-primary btn-sm', href: "/auth/facebook"},
                                D.span({ className: 'glyphicon glyphicon-plus'}),
                                ' Додади ги и моите Facebook настани');
-        var askLocationBtn = D.a({ className: 'btn btn-success btn-sm', onClick: this.props.askForLocation },
+        var askLocationBtn = D.a({ className: 'btn btn-default btn-sm', onClick: this.props.askForLocation },
                                  D.span({ className: 'glyphicon glyphicon-map-marker' }),
                                  ' Лоцирај ме');
 
