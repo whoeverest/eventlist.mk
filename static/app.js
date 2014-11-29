@@ -99,8 +99,8 @@ var EventThumbnail = React.createClass({
                      coverImageEl,
                      D.div({ className: 'info' },
                            D.div({ className: 'whereabout' },
-                                 D.strong({ className: 'time' }, timestampText),
-                                 D.div({ className: 'venue' }, venue)),
+                                 D.strong({ className: 'time' }, D.span({ className: 'glyphicon glyphicon-time' }), ' ' + timestampText),
+                                 D.div({ className: 'venue' }, D.span({ className: 'glyphicon glyphicon-home' }), ' ' + venue)),
                            D.a({ className: 'name', href: eventUrl }, this.props.name)));
     }
 });
@@ -204,9 +204,9 @@ var Stats = React.createClass({
     },
     render: function() {
         var content =
-            'Корисници: ' + this.state.userCount +
-            ' / Настани: ' + this.state.eventCount +
-            ' / Освежено: ' + (this.state.lastRefreshed ? moment(this.state.lastRefreshed).fromNow() : 'не знам кога.');
+            'корисници: ' + this.state.userCount +
+            ' / настани: ' + this.state.eventCount +
+            ' / освежено: ' + (this.state.lastRefreshed ? moment(this.state.lastRefreshed).fromNow() : 'не знам кога.');
         return D.div(null, content);
     }
 });
