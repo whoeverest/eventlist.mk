@@ -81,18 +81,16 @@ function smartShorten(str, length) {
 
 function distanceFromUserKm(event, userLocation) {
     if (!event.venue || !event.venue.latitude) {
-        console.log('a');
         return null;
     }
     if (!userLocation) {
-        console.log('b');
         return null;
     }
 
     return getDistanceFromLatLonInKm(event.venue.latitude,
-                                                 event.venue.longitude,
-                                                 userLocation.latitude,
-                                                 userLocation.longitude);
+                                     event.venue.longitude,
+                                     userLocation.latitude,
+                                     userLocation.longitude);
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -109,11 +107,6 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 
 function deg2rad(deg) {
     return deg * (Math.PI/180);
-}
-
-function askForLocation() {
-    a.updateUserPosition();
-    console.log('set location');
 }
 
 // end of helpers
