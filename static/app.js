@@ -130,7 +130,7 @@ var EventThumbnail = React.createClass({
             className: 'cover-image', style: style
         }));
 
-        var venue = smartShorten(this.props.location, 25) || '<нема локација>';
+        var venue = this.props.location ? smartShorten(this.props.location, 25) : '<нема локација>';
         var venueText = ' ' + venue;
 
         if (this.props.distanceFromUser) {
