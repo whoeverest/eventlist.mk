@@ -4,3 +4,6 @@ scripts:
   deploy: "./scripts/deploy.sh"
   refresh: "./scripts/refresh-data.js"
   backup: "./scripts/backup.sh"
+env:
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/lib:/usr/local
+
