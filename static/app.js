@@ -271,6 +271,8 @@ var Header = React.createClass({
     render: function() {
         var logo = D.h1(null, 'EventList.mk');
         var stats = D.h4(null, Stats());
+        var description = D.span({ className: 'header-description' },
+                                 "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
         var addEventsBtn = D.a({ className: 'btn btn-primary btn-sm', href: "/auth/facebook"},
                                D.span({ className: 'glyphicon glyphicon-plus'}),
                                ' Додади ги и моите Facebook настани');
@@ -280,8 +282,10 @@ var Header = React.createClass({
 
         return D.div(null,
                      logo,
-                     stats, D.div({ className: 'btn-group', role: 'group'},
-                                  addEventsBtn,
+                     stats,
+                     D.div({ className: 'header-description-wrap' }, description),
+                     D.div({ className: 'btn-group', role: 'group'},
+                           addEventsBtn,
                                   askLocationBtn));
     }
 });

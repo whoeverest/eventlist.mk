@@ -42,7 +42,14 @@ html {
 .event-thumbnail .info {
     padding: 5px;
 }
-
+.header-description {
+    font-size: 22px;
+    background: #eee;
+    margin-top: 20px;
+}
+.header-description-wrap {
+    margin-bottom: 10px;
+}
 @media all and (max-width: 320px) {
     .event-thumbnail .venue {
         float: left;
