@@ -7,6 +7,7 @@ var RedisStore = require('connect-redis')(session);
 var fs = require('fs');
 
 var db = require('./lib/db-service');
+var rss = require('./lib/rss');
 
 var strategy = new FacebookStrategy({
     clientID: "1471063303131642",
@@ -92,6 +93,12 @@ app.get('/', function(req, res) {
     } else {
         res.end(fs.readFileSync('./index.html'));
     }
+});
+
+app.get('/rss', function(req, res) {
+    rss().then(function(feedString) {
+        res.end(feedString);
+    });
 });
 
 console.log('Server started');
