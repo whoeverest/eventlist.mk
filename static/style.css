@@ -8,11 +8,12 @@ html {
     text-align: center;
 }
 .event-group {
-    margin-top: 4em;
+    margin-top: 6em;
 }
 .event-thumbnail {
     min-height: 120px;
     margin-bottom: 30px;
+    margin-left: 20px;
 }
 .event-thumbnail .cover-image {
     height: 120px;
@@ -37,6 +38,9 @@ html {
 .event-thumbnail .whereabout {
     overflow: auto;
     margin-top: 5px;
+}
+.header {
+    margin-bottom: 20px;
 }
 .header-description {
     font-size: 22px;
