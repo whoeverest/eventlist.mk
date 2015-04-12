@@ -273,7 +273,7 @@ var Header = React.createClass({
         var stats = D.h4(null, Stats());
         var description = D.span({ className: 'header-description' },
                                  "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
-        var addEventsBtn = D.a({ className: 'btn btn-primary btn-sm', href: "/auth/facebook"},
+        var addEventsBtn = D.a({ className: 'btn btn-primary btn-success btn-sm', href: "/auth/facebook"},
                                D.span({ className: 'glyphicon glyphicon-plus'}),
                                ' Додади ги и моите Facebook настани');
         var askLocationBtn = D.a({ className: 'btn btn-default btn-sm', onClick: this.props.askForLocation },
@@ -285,8 +285,7 @@ var Header = React.createClass({
                      stats,
                      D.div({ className: 'header-description-wrap' }, description),
                      D.div({ className: 'btn-group', role: 'group'},
-                           addEventsBtn,
-                                  askLocationBtn));
+                           addEventsBtn));
     }
 });
 
