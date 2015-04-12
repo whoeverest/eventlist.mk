@@ -128,14 +128,14 @@ var EventThumbnail = React.createClass({
 
         if (this.props.distanceFromUser) {
             venueText += ' (' + this.props.distanceFromUser.toFixed(2) + 'km' + ')';
-         }
+        }
 
         var venueEl = D.div({ className: 'venue' },
-                            D.span({ className: 'glyphicon glyphicon-home' }),
+                            // D.span({ className: 'glyphicon glyphicon-home' }),
                             venueText);
 
         var timeEl = D.strong({ className: 'time' },
-                              D.span({ className: 'glyphicon glyphicon-time' }),
+                              // D.span({ className: 'glyphicon glyphicon-time' }),
                               ' ' + timestampText);
 
         return D.div({ className: 'event-thumbnail'},

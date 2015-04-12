@@ -11,18 +11,18 @@ html {
     margin-top: 4em;
 }
 .event-thumbnail {
-    min-height: 200px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
+    min-height: 120px;
     margin-bottom: 30px;
-    box-shadow: 0px 2px #ddd;
 }
 .event-thumbnail .cover-image {
     height: 120px;
+    width: 120px;
     background-position: 50% 50%;
     background-size: cover;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
+    float: left;
+    margin-right: 10px;
 }
 .event-thumbnail .name {
     display: block;
@@ -31,19 +31,12 @@ html {
     margin-top: 0.3em;
     line-height: 1.2em;
 }
-.event-thumbnail .venue {
-    float: right;
-}
 .event-thumbnail .time {
-    float: left;
     font-weight: 700;
 }
 .event-thumbnail .whereabout {
     overflow: auto;
-    margin-top: 10px;
-}
-.event-thumbnail .info {
-    padding: 10px;
+    margin-top: 5px;
 }
 .header-description {
     font-size: 22px;
