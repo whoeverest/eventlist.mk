@@ -269,7 +269,7 @@ var Stats = React.createClass({
 var Header = React.createClass({
     displayName: 'Header',
     render: function() {
-        var logo = D.h1(null, 'EventList.mk');
+        var logo = D.h1({ className: 'title' }, 'EventList.mk');
         var stats = D.h4(null, Stats());
         var description = D.span({ className: 'header-description' },
                                  "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
