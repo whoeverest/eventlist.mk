@@ -18,7 +18,7 @@ html {
     box-shadow: 0px 2px #ddd;
 }
 .event-thumbnail .cover-image {
-    height: 150px;
+    height: 120px;
     background-position: 50% 50%;
     background-size: cover;
     border-top-left-radius: 2px;
@@ -29,18 +29,21 @@ html {
     font-size: 1.3em;
     color: #333;
     margin-top: 0.3em;
+    line-height: 1.2em;
 }
 .event-thumbnail .venue {
     float: right;
 }
 .event-thumbnail .time {
     float: left;
+    font-weight: 700;
 }
 .event-thumbnail .whereabout {
     overflow: auto;
+    margin-top: 10px;
 }
 .event-thumbnail .info {
-    padding: 5px;
+    padding: 10px;
 }
 .header-description {
     font-size: 22px;

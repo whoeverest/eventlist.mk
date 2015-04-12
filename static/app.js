@@ -141,8 +141,8 @@ var EventThumbnail = React.createClass({
         return D.div({ className: 'event-thumbnail'},
                      coverImageEl,
                      D.div({ className: 'info' },
-                           D.div({ className: 'whereabout' }, timeEl, venueEl),
-                           D.a({ className: 'name', href: eventUrl }, this.props.name)));
+                           D.a({ className: 'name', href: eventUrl }, this.props.name),
+                           D.div({ className: 'whereabout' }, timeEl, venueEl)));                     
     }
 });
 
