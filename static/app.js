@@ -178,9 +178,11 @@ var App = React.createClass({
             return EventGroup({ day: key, events: val });
         });
 
-        return D.div(null,
-                     Header({ askForLocation: this.askForLocation }),
-                     D.div({ className: 'event-list' }, items));
+        return D.div(
+            null,
+            Header({ askForLocation: this.askForLocation }),
+            D.div({ className: 'event-list' }, items)
+        );
     },
     updateUserPosition: function(coordObj) {
         if (!coordObj || !coordObj.coords || !coordObj.coords.latitude) {
@@ -292,14 +294,38 @@ var Header = React.createClass({
 var Router = ReactRouter;
 var Route = React.createFactory(Router.Route);
 var RouteHandler = Router.RouteHandler;
+var DefaultRoute = Router.DefaultRoute
+
+var TestHandler = React.createClass({
+    displayName: 'testClass',
+    render: function() {
+        return React.createElement('div', null, 'whatever');
+    }
+});
+
+var MainHandler = React.createClass({
+    displayName: 'MainHandler',
+    render: function() {
+        return (
+            React.createElement(
+                'div', null,
+                React.createElement(RouteHandler, null)
+            )
+        );
+    }
+});
 
 var routes = (
-    React.createElement(Route, {name: "app", path: "/", handler: App})
+    React.createElement(Route, { name: "app", path: "/", handler: MainHandler },
+        React.createElement(DefaultRoute, { handler: App }),
+        React.createElement(Route, { name: "test", handler: TestHandler })
+    )
 );
 
 Router.run(routes, function(Handler) {
+    console.log('here')
     React.render(React.createElement(Handler, null), document.getElementById("app"));
 });
 
 // React.render(React.createElement(App), document.getElementById("app"));
-// React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
+React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
