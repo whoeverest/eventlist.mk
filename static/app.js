@@ -289,5 +289,5 @@ var Header = React.createClass({
     }
 });
 
-React.renderComponent(App(), document.getElementById("app"));
-React.renderComponent(Notification(), document.getElementById("notification-wrap"));
+React.render(React.createElement(App), document.getElementById("app"));
+React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
