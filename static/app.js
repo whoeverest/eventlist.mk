@@ -289,5 +289,17 @@ var Header = React.createClass({
     }
 });
 
-React.render(React.createElement(App), document.getElementById("app"));
-React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
+var Router = ReactRouter;
+var Route = React.createFactory(Router.Route);
+var RouteHandler = Router.RouteHandler;
+
+var routes = (
+    React.createElement(Route, {name: "app", path: "/", handler: App})
+);
+
+Router.run(routes, function(Handler) {
+    React.render(React.createElement(Handler, null), document.getElementById("app"));
+});
+
+// React.render(React.createElement(App), document.getElementById("app"));
+// React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
