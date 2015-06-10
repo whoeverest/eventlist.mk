@@ -161,20 +161,11 @@ var EventGroup = React.createClass({
 
 var HomepageList = React.createClass({
     displayName: 'HomepageList',
-    componentWillMount: function() {
-        var self = this;
-        $.getJSON('/events', function(events) {
-            events = _.sortBy(events, function(ev) {
-                return ev.start_time;
-            });
-            self.setState({ events: events });
-        });
-    },
     getInitialState: function() {
         return { events: [] };
     },
     render: function() {
-        var groups = _.groupBy(this.state.events, nearTodayGroups);
+        var groups = _.groupBy(this.props.events, nearTodayGroups);
 
         var items = _.map(groups, function(val, key) {
             return $$(EventGroup, { day: key, events: val });
@@ -183,23 +174,6 @@ var HomepageList = React.createClass({
         return $$('div', null,
             $$('div', { className: 'event-list' }, items)
         );
-    },
-    updateUserPosition: function(coordObj) {
-        if (!coordObj || !coordObj.coords || !coordObj.coords.latitude) {
-            return;
-        }
-        var userLocation = {
-            latitude: coordObj.coords.latitude,
-            longitude: coordObj.coords.longitude
-        };
-        var eventsWithDist = this.state.events.map(function(ev) {
-            ev.distanceFromUser = distanceFromUserKm(ev, userLocation);
-            return ev;
-        });
-        this.setState({ events: eventsWithDist });
-    },
-    askForLocation: function() {
-        navigator.geolocation.getCurrentPosition(this.updateUserPosition);
     }
 });
 
@@ -304,12 +278,40 @@ var DetailsPage = React.createClass({
 
 var App = React.createClass({
     displayName: 'App',
+    getInitialState: function() {
+        return { events: [] };
+    },
+    componentWillMount: function() {
+        var self = this;
+        $.getJSON('/events', function(events) {
+            events = _.sortBy(events, function(ev) {
+                return ev.start_time;
+            });
+            self.setState({ events: events });
+        });
+    },
     render: function() {
-        // return $$(RouteHandler, null);
         return $$('div', null,
             $$(Header, null, { askForLocation: this.askForLocation }),
-            $$(RouteHandler, null)
+            $$(RouteHandler, { events: this.state.events })
         );
+    },
+    updateUserPosition: function(coordObj) {
+        if (!coordObj || !coordObj.coords || !coordObj.coords.latitude) {
+            return;
+        }
+        var userLocation = {
+            latitude: coordObj.coords.latitude,
+            longitude: coordObj.coords.longitude
+        };
+        var eventsWithDist = this.state.events.map(function(ev) {
+            ev.distanceFromUser = distanceFromUserKm(ev, userLocation);
+            return ev;
+        });
+        this.setState({ events: eventsWithDist });
+    },
+    askForLocation: function() {
+        navigator.geolocation.getCurrentPosition(this.updateUserPosition);
     }
 });
 
