@@ -1,5 +1,11 @@
 var $$ = React.createElement;
 
+var Router = ReactRouter;
+var Route = React.createFactory(Router.Route);
+var RouteHandler = Router.RouteHandler;
+var DefaultRoute = Router.DefaultRoute;
+var Link = Router.Link;
+
 // helpers
 
 function isToday(dateObj) {
@@ -119,7 +125,7 @@ var EventThumbnail = React.createClass({
         var imgUrl = coverImage(this.props);
 
         var style = { backgroundImage: 'url(' + imgUrl + ')' };
-        var coverImageEl = $$('a', { href: eventUrl },
+        var coverImageEl = $$(Link, { to: '/e/' + this.props.id },
             $$('div', { className: 'cover-image', style: style })
         );
 
@@ -136,7 +142,7 @@ var EventThumbnail = React.createClass({
         return $$('div', { className: 'event-thumbnail'},
                      coverImageEl,
                      $$('div', { className: 'info' },
-                           $$('a', { className: 'name', href: eventUrl }, this.props.name),
+                           $$(Link, { className: 'name', to: '/e/' + this.props.id }, this.props.name),
                            $$('div', { className: 'whereabout' }, timeEl, venueEl)));
     }
 });
@@ -174,9 +180,7 @@ var HomepageList = React.createClass({
             return $$(EventGroup, { day: key, events: val });
         });
 
-        return $$('div',
-            null,
-            $$(Header, null, { askForLocation: this.askForLocation }),
+        return $$('div', null,
             $$('div', { className: 'event-list' }, items)
         );
     },
@@ -287,30 +291,30 @@ var Header = React.createClass({
     }
 });
 
-var Router = ReactRouter;
-var Route = React.createFactory(Router.Route);
-var RouteHandler = Router.RouteHandler;
-var DefaultRoute = Router.DefaultRoute
-
 var DetailsPage = React.createClass({
     displayName: 'testClass',
     contextTypes: {
         router: React.PropTypes.func.isRequired
     },
     render: function() {
-        return $$('div', null, this.context.router.getCurrentParams().name);
+        var eventId = this.context.router.getCurrentParams()['eventId'];
+        return $$('div', null, eventId);
     }
 });
 
-var MainHandler = React.createClass({
-    displayName: 'MainHandler',
+var App = React.createClass({
+    displayName: 'App',
     render: function() {
-        return $$(RouteHandler, null);
+        // return $$(RouteHandler, null);
+        return $$('div', null,
+            $$(Header, null, { askForLocation: this.askForLocation }),
+            $$(RouteHandler, null)
+        );
     }
 });
 
 var routes = (
-    $$(Route, { name: "app", path: "/", handler: MainHandler },
+    $$(Route, { name: "app", path: "/", handler: App },
         $$(DefaultRoute, { handler: HomepageList }),
         $$(Route, { name: "e/:eventId", handler: DetailsPage })
     )
