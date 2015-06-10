@@ -270,9 +270,30 @@ var DetailsPage = React.createClass({
     contextTypes: {
         router: React.PropTypes.func.isRequired
     },
-    render: function() {
+    getInitialState: function() {
+        return { e: {} };
+    },
+    componentWillMount: function() {
+        var self = this;
         var eventId = this.context.router.getCurrentParams()['eventId'];
-        return $$('div', null, eventId);
+        $.getJSON('/events/' + eventId, function(e) {
+            self.setState({ e: e });
+        });
+    },
+    render: function() {
+        if (!this.state.e.id) {
+            return $$('div', null, 'Loading');
+        }
+
+        var ev = this.state.e;
+
+        return $$('div', { className: 'details-wrap' },
+            $$('img', { src: ev.cover.source, className: 'details-image' }),
+            $$('h1', null, ev.name),
+            $$('h4', null, ev.location + ' / ' + moment(ev.start_time).format('D.M.YY')),
+            $$('p', null, ev.description),
+            $$('a', { href: 'https://facebook.com/' + ev.id }, 'Настанот на Facebook')
+        );
     }
 });
 

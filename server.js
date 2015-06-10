@@ -66,15 +66,25 @@ app.get('/events', function(req, res) {
         res.json(events);
     }).error(function(err) {
         console.log(err);
-        res.json({ error: 'error' });
+        res.json({ error: 'error fetching events' });
+    });
+});
+
+app.get('/events/:id', function(req, res) {
+    db.events.withId(req.params.id).then(function(event) {
+        res.json(event);
+    }).error(function(err) {
+        console.log(err);
+        res.json({ error: 'error fetchin one event' });
     });
 });
 
 app.get('/stats', function(req, res) {
     db.general.stats().then(function(stats) {
         res.json(stats);
-    }).error(function() {
-        console.log('err');
+    }).error(function(err) {
+        console.log(err);
+        res.json({ error: 'error fetching stats' });
     });
 });
 

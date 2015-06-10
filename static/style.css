@@ -52,6 +52,12 @@ html {
 .header-description-wrap {
     margin-bottom: 10px;
 }
+.details-wrap {
+    padding-top: 80px;
+}
+.details-image {
+    max-width: 100%;
+}
 @media all and (max-width: 320px) {
     .event-thumbnail .venue {
         float: left;
