@@ -292,7 +292,7 @@ var DetailsPage = React.createClass({
         return $$('div', { className: 'details-wrap' },
             $$('div', { style: imgStyle, className: 'details-image' }),
             $$('h1', null, ev.name),
-            $$('h4', null, ev.location + ' / ' + moment(ev.start_time).format('D.M.YY')),
+            $$('h4', null, ev.location + ' / ' + moment(ev.start_time).format('D.M.YY / HH:mm')),
             $$('p', { className: 'details-description' }, ev.description),
             $$('a', { href: 'https://facebook.com/' + ev.id }, 'Настанот на Facebook')
         );
