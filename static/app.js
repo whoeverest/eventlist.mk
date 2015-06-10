@@ -1,4 +1,4 @@
-var D = React.DOM;
+var $$ = React.createElement;
 
 // helpers
 
@@ -119,9 +119,9 @@ var EventThumbnail = React.createClass({
         var imgUrl = coverImage(this.props);
 
         var style = { backgroundImage: 'url(' + imgUrl + ')' };
-        var coverImageEl = D.a({ href: eventUrl }, D.div({
-            className: 'cover-image', style: style
-        }));
+        var coverImageEl = $$('a', { href: eventUrl },
+            $$('div', { className: 'cover-image', style: style })
+        );
 
         var venue = this.props.location ? smartShorten(this.props.location, 25) : '<нема локација>';
         var venueText = ' ' + venue;
@@ -130,35 +130,31 @@ var EventThumbnail = React.createClass({
             venueText += ' (' + this.props.distanceFromUser.toFixed(2) + 'km' + ')';
         }
 
-        var venueEl = D.div({ className: 'venue' },
-                            // D.span({ className: 'glyphicon glyphicon-home' }),
-                            venueText);
+        var venueEl = $$('div', { className: 'venue' }, venueText);
+        var timeEl = $$('strong', { className: 'time' }, ' ' + timestampText);
 
-        var timeEl = D.strong({ className: 'time' },
-                              // D.span({ className: 'glyphicon glyphicon-time' }),
-                              ' ' + timestampText);
-
-        return D.div({ className: 'event-thumbnail'},
+        return $$('div', { className: 'event-thumbnail'},
                      coverImageEl,
-                     D.div({ className: 'info' },
-                           D.a({ className: 'name', href: eventUrl }, this.props.name),
-                           D.div({ className: 'whereabout' }, timeEl, venueEl)));                     
+                     $$('div', { className: 'info' },
+                           $$('a', { className: 'name', href: eventUrl }, this.props.name),
+                           $$('div', { className: 'whereabout' }, timeEl, venueEl)));
     }
 });
 
 var EventGroup = React.createClass({
     displayName: 'EventGroup',
     render: function() {
-        var items = this.props.events.map(EventThumbnail);
-        return D.div(
-            { className: 'event-group' },
-            D.h1({ className: 'header' }, this.props.day),
-            D.div(null, items));
+        var items = this.props.events.map(function(ev) {
+            return $$(EventThumbnail, ev);
+        });
+        return $$('div', { className: 'event-group' },
+            $$('h1', { className: 'header' }, this.props.day),
+            $$('div', null, items));
     }
 });
 
-var App = React.createClass({
-    displayName: 'App',
+var HomepageList = React.createClass({
+    displayName: 'HomepageList',
     componentWillMount: function() {
         var self = this;
         $.getJSON('/events', function(events) {
@@ -175,13 +171,13 @@ var App = React.createClass({
         var groups = _.groupBy(this.state.events, nearTodayGroups);
 
         var items = _.map(groups, function(val, key) {
-            return EventGroup({ day: key, events: val });
+            return $$(EventGroup, { day: key, events: val });
         });
 
-        return D.div(
+        return $$('div',
             null,
-            Header({ askForLocation: this.askForLocation }),
-            D.div({ className: 'event-list' }, items)
+            $$(Header, null, { askForLocation: this.askForLocation }),
+            $$('div', { className: 'event-list' }, items)
         );
     },
     updateUserPosition: function(coordObj) {
@@ -238,9 +234,9 @@ var Notification = React.createClass({
         var messageId = this.getMessageFromUrl();
         var messageObj = this.notifications[messageId];
 
-        if (!messageId) { return D.div(null); }
+        if (!messageId) { return $$('div', null); }
 
-        return D.div({ className: 'notification alert-' + messageObj.type }, messageObj.message);
+        return $$('div', { className: 'notification alert-' + messageObj.type }, messageObj.message);
     }
 });
 
@@ -264,29 +260,29 @@ var Stats = React.createClass({
             'корисници: ' + this.state.userCount +
             ' / настани: ' + this.state.eventCount +
             ' / освежено: ' + (this.state.lastRefreshed ? moment(this.state.lastRefreshed).fromNow() : 'не знам кога.');
-        return D.div(null, content);
+        return $$('div', null, content);
     }
 });
 
 var Header = React.createClass({
     displayName: 'Header',
     render: function() {
-        var logo = D.h1({ className: 'title' }, 'EventList.mk');
-        var stats = D.h4(null, Stats());
-        var description = D.span({ className: 'header-description' },
+        var logo = $$('h1', { className: 'title' }, 'EventList.mk');
+        var stats = $$('h4', null, $$(Stats, null));
+        var description = $$('span', { className: 'header-description' },
                                  "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
-        var addEventsBtn = D.a({ className: 'btn btn-primary btn-success', href: "/auth/facebook"},
-                               D.span({ className: 'glyphicon glyphicon-plus'}),
+        var addEventsBtn = $$('a', { className: 'btn btn-primary btn-success', href: "/auth/facebook"},
+                               $$('span', { className: 'glyphicon glyphicon-plus'}),
                                ' Додади ги и моите Facebook настани');
-        var askLocationBtn = D.a({ className: 'btn btn-default btn-sm', onClick: this.props.askForLocation },
-                                 D.span({ className: 'glyphicon glyphicon-map-marker' }),
+        var askLocationBtn = $$('a', { className: 'btn btn-default btn-sm', onClick: this.props.askForLocation },
+                                 $$('span', { className: 'glyphicon glyphicon-map-marker' }),
                                  ' Лоцирај ме');
 
-        return D.div(null,
+        return $$('div', null,
                      logo,
                      stats,
-                     D.div({ className: 'header-description-wrap' }, description),
-                     D.div({ className: 'btn-group', role: 'group'},
+                     $$('div', { className: 'header-description-wrap' }, description),
+                     $$('div', { className: 'btn-group', role: 'group'},
                            addEventsBtn));
     }
 });
@@ -296,36 +292,33 @@ var Route = React.createFactory(Router.Route);
 var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute
 
-var TestHandler = React.createClass({
+var DetailsPage = React.createClass({
     displayName: 'testClass',
+    contextTypes: {
+        router: React.PropTypes.func.isRequired
+    },
     render: function() {
-        return React.createElement('div', null, 'whatever');
+        return $$('div', null, this.context.router.getCurrentParams().name);
     }
 });
 
 var MainHandler = React.createClass({
     displayName: 'MainHandler',
     render: function() {
-        return (
-            React.createElement(
-                'div', null,
-                React.createElement(RouteHandler, null)
-            )
-        );
+        return $$(RouteHandler, null);
     }
 });
 
 var routes = (
-    React.createElement(Route, { name: "app", path: "/", handler: MainHandler },
-        React.createElement(DefaultRoute, { handler: App }),
-        React.createElement(Route, { name: "test", handler: TestHandler })
+    $$(Route, { name: "app", path: "/", handler: MainHandler },
+        $$(DefaultRoute, { handler: HomepageList }),
+        $$(Route, { name: "e/:eventId", handler: DetailsPage })
     )
 );
 
 Router.run(routes, function(Handler) {
-    console.log('here')
-    React.render(React.createElement(Handler, null), document.getElementById("app"));
+    React.render($$(Handler, null), document.getElementById("app"));
 });
 
-// React.render(React.createElement(App), document.getElementById("app"));
-React.render(React.createElement(Notification), document.getElementById("notification-wrap"));
+// React.render($$(App), document.getElementById("app"));
+React.render($$(Notification), document.getElementById("notification-wrap"));
