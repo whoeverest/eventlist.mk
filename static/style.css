@@ -4,6 +4,11 @@ html {
 }
 .title {
     font-size: 50px;
+    color: rgb(51, 51, 51)
+}
+.title-link:hover, .title-link:visited, .title-link:active {
+    color: rgb(51, 51, 51);
+    text-decoration: none;
 }
 .notification {
     width: 100%;

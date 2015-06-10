@@ -245,7 +245,7 @@ var Stats = React.createClass({
 var Header = React.createClass({
     displayName: 'Header',
     render: function() {
-        var logo = $$('h1', { className: 'title' }, 'EventList.mk');
+        var logo = $$(Link, { to: '/', className: 'title-link' }, $$('h1', { className: 'title' }, 'EventList.mk'));
         var stats = $$('h4', null, $$(Stats, null));
         var description = $$('span', { className: 'header-description' },
                                  "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
