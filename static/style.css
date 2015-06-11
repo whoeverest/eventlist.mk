@@ -68,7 +68,7 @@ html {
     background-size: cover;
 }
 .details-description {
-    white-space: pre;
+    white-space: pre-line;
     word-wrap: break-word;
 }
 @media all and (max-width: 320px) {
