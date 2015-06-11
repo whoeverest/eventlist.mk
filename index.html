@@ -38,9 +38,15 @@
       ga('create', 'UA-37081923-3', 'auto');
       // ga('send', 'pageview');
 
-      ga('send', 'pageview', {
-       'page': location.pathname + location.search  + location.hash
-      });
+      function gTrack() {
+        ga('send', 'pageview', {
+         'page': location.pathname + location.search  + location.hash
+        });
+      }
+
+      gTrack();
+
+      $(window).on('hashchange', gTrack);
     </script>
   </body>
 </html>
