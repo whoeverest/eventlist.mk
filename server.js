@@ -6,12 +6,13 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var fs = require('fs');
 
+var config = require('./config');
 var db = require('./lib/db-service');
 var rss = require('./lib/rss');
 
 var strategy = new FacebookStrategy({
-    clientID: "1471063303131642",
-    clientSecret: "c5197e02fc6fad6537162806cf161f0b",
+    clientID: config.fb.clientID,
+    clientSecret: config.fb.clientSecret,
     callbackURL: "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
     db.user.insert(profile.id, profile._json.name, accessToken).then(function() {
@@ -43,7 +44,7 @@ app.use(connect.static(__dirname + '/static'));
 app.use(connect.cookieParser());
 app.use(connect.bodyParser());
 app.use(connect.session({
-    secret: 'OO*gh84f2oiyfu28g24oiugfvy2498gy2498g2y4iugfev',
+    secret: config.express.secret,
     store: new RedisStore()
 }));
 app.use(passport.initialize());
