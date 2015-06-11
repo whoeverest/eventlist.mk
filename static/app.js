@@ -4,6 +4,7 @@ var Router = ReactRouter;
 var Route = React.createFactory(Router.Route);
 var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
+var NotFoundRoute = Router.NotFoundRoute;
 var Link = Router.Link;
 
 // helpers
@@ -341,7 +342,8 @@ var App = React.createClass({
 var routes = (
     $$(Route, { name: "app", path: "/", handler: App },
         $$(DefaultRoute, { handler: HomepageList }),
-        $$(Route, { name: "e/:eventId", handler: DetailsPage })
+        $$(Route, { name: "e/:eventId", handler: DetailsPage }),
+        $$(NotFoundRoute, { handler: HomepageList })
     )
 );
 
