@@ -249,10 +249,10 @@ var Header = React.createClass({
         var logo = $$(Link, { to: '/', className: 'title-link' }, $$('h1', { className: 'title' }, 'EventList.mk'));
         var stats = $$('h4', null, $$(Stats, null));
         var description = $$('span', { className: 'header-description' },
-                                 "Ти си поканет на некои настани на Facebook. Другарка ти на други. EventList.mk = твоите настани + нејзините.");
-        var addEventsBtn = $$('a', { className: 'btn btn-primary btn-success', href: "/auth/facebook"},
+                                 "Aгрегатор на јавни Facebook настани. Листата се генерира автоматски. Сакаш да придонесеш?");
+        var addEventsBtn = $$('a', { className: 'btn btn-primary', href: "/auth/facebook"},
                                $$('span', { className: 'glyphicon glyphicon-plus'}),
-                               ' Додади ги и моите Facebook настани');
+                               ' Додади ги и моите настани!');
         var askLocationBtn = $$('a', { className: 'btn btn-default btn-sm', onClick: this.props.askForLocation },
                                  $$('span', { className: 'glyphicon glyphicon-map-marker' }),
                                  ' Лоцирај ме');
